@@ -1,0 +1,135 @@
+{
+  "app": {
+    "title": "Miapp",
+    "subtitle": "Sistema de Gestión de Energía"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "energia": "Energía",
+    "luces": "Luces",
+    "clima": "Clima",
+    "reportes": "Reportes",
+    "manual": "Manual",
+    "perfil": "Perfil",
+    "admin": "Admin",
+    "logout": "Salir"
+  },
+  "dashboard": {
+    "title": "Energy Flow",
+    "live": "LIVE",
+    "balance": "Balance Energético Hoy",
+    "solar": "Solar",
+    "consumo": "Consumo",
+    "export": "Export",
+    "import": "Import",
+    "generacionSolar": "Generación Solar",
+    "consumoActual": "Consumo Actual",
+    "bateria": "Batería",
+    "importando": "Importando",
+    "exportando": "Exportando",
+    "generacionHoy": "Generación Hoy",
+    "consumoHoy": "Consumo Hoy",
+    "autoconsumo": "Autoconsumo"
+  },
+  "reportes": {
+    "title": "Reportes",
+    "tipo": {
+      "consumption": "Consumo de Energía",
+      "generated": "Total Generado",
+      "cost": "Costos",
+      "alerts": "Alertas"
+    },
+    "rango": {
+      "day": "Hoy",
+      "week": "Esta Semana",
+      "month": "Este Mes",
+      "year": "Este Año"
+    },
+    "generar": "Generar Reporte",
+    "exportar": "Exportar PDF",
+    "totalGenerado": "Total Generado",
+    "totalConsumo": "Total Consumo",
+    "costoTotal": "Costo Total",
+    "promedioDiario": "Promedio Diario",
+    "maximo": "Máximo",
+    "historialConsumo": "Historial: Consumo vs Generación",
+    "historialGeneracion": "Historial de Generación Solar",
+    "historialCostos": "Historial de Costos",
+    "alertas": "Alertas del Período",
+    "fecha": "Fecha",
+    "tipo": "Tipo",
+    "mensaje": "Mensaje"
+  },
+  "admin": {
+    "title": "Administración",
+    "usuarios": "Usuarios",
+    "agregarUsuario": "Agregar Usuario",
+    "nombre": "Nombre",
+    "usuario": "Usuario",
+    "rol": "Rol",
+    "acciones": "Acciones",
+    "eliminar": "Eliminar",
+    "admin": "Administrador",
+    "user": "Usuario"
+  },
+  "perfil": {
+    "title": "Perfil de Usuario",
+    "cambiarPassword": "Cambiar Contraseña",
+    "passwordActual": "Contraseña Actual",
+    "nuevaPassword": "Nueva Contraseña",
+    "confirmarPassword": "Confirmar Contraseña",
+    "guardar": "Guardar",
+    "actualizado": "¡Contraseña actualizada!",
+    "error": "Error al actualizar"
+  },
+  "login": {
+    "title": "Ingresar",
+    "usuario": "Usuario",
+    "password": "Contraseña",
+    "ingresar": "Ingresar",
+    "error": "Error al iniciar sesión",
+    "noCuenta": "¿No tienes cuenta?",
+    "registrate": "Regístrate"
+  },
+  "register": {
+    "title": "Registrarse",
+    "nombre": "Nombre",
+    "usuario": "Usuario",
+    "password": "Contraseña",
+    "registrar": "Registrarse",
+    "exito": "¡Usuario registrado!",
+    "error": "Error al registrar"
+  },
+  "manual": {
+    "title": "Manual de Usuario",
+    "indice": "Índice",
+    "intro": "Introducción",
+    "login": "Iniciar Sesión",
+    "dashboard": "Dashboard",
+    "energia": "Gestión de Energía",
+    "luces": "Control de Luces",
+    "clima": "Control de Clima",
+    "reportes": "Reportes",
+    "admin": "Administración",
+    "ayuda": "Ayuda",
+    "introContent": "Miapp es un sistema de gestión de energía que te permite monitorear y controlar el consumo de energía de tu hogar o negocio.",
+    "loginContent": "Para acceder al sistema, ingresa tu usuario y contraseña. Si no tienes cuenta, regístrate haciendo clic en el enlace.",
+    "dashboardContent": "El Dashboard muestra el flujo de energía en tiempo real. Puedes ver la generación solar, consumo, batería e intercambio con la red.",
+    "energiaContent": "En la sección de Energía puedes ver estadísticas detalladas del consumo y generación de energía.",
+    "lucesContent": "Controla las luces de tu hogar encendiéndolas o apagándolas desde esta sección.",
+    "climaContent": "Gestiona los aires acondicionados de tu propiedad. Enciende, apaga y monitorea su consumo.",
+    "reportesContent": "Genera reportes de consumo energético. Selecciona el tipo de reporte y el período de tiempo.",
+    "adminContent": "La sección de administración permite gestionar usuarios del sistema.",
+    "ayudaContent": "Si necesitas ayuda adicional, contacta al administrador del sistema."
+  },
+  "energia": {
+    "title": "Gestión de Energía",
+    " consumo": "Consumo"
+  },
+  "luces": {
+    "title": "Control de Luces"
+  },
+  "clima": {
+    "title": "Control de Clima"
+  }
+}

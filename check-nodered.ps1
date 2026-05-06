@@ -1,0 +1,2 @@
+$r = Invoke-RestMethod -Uri 'http://192.168.90.243:8123/api/states' -Headers @{'Authorization'='Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJjZjk0YzliNDQ5YWI0MDU4OTYyNjY0MzBiOGY1NTQ1ZCIsImlhdCI6MTc2MTI0ODE4NSwiZXhwIjoyMDc2NjA4MTg1fQ.td4gYVW3qHq2zvHXBRu1Kusgep36Ff1UFEHbQwFu1fE'}
+$r | Where-Object { $_.entity_id -eq 'sensor.nodered_export_diia_2' -or $_.entity_id -eq 'sensor.nodered_import_diia_2' } | Format-Table entity_id, state

@@ -1,0 +1,96 @@
+Conectando a MQTT: 192.168.90.126:1883
+Iniciando polling HA cada 10000ms...
+HA URL: http://192.168.90.243:8123
+Fetching from HA: http://192.168.90.243:8123
+====================================
+Servidor Miapp corriendo en http://localhost:3000
+====================================
+Endpoints:
+  GET  /api/energy/current
+  GET  /api/energy/solar
+  GET  /api/energy/daily
+  GET  /api/nodered/data
+  POST /api/nodered/data
+  GET  /api/nodered/status
+====================================
+✓ HA: Solar=3390W, Consumo=5862W, Bateria=990%
+Error MQTT: getaddrinfo ENOTFOUND 1883
+Desconectado del broker MQTT
+Reconectando a MQTT...
+Error MQTT: getaddrinfo ENOTFOUND 1883
+Desconectado del broker MQTT
+Fetching from HA: http://192.168.90.243:8123
+✓ HA: Solar=3390W, Consumo=5862W, Bateria=990%
+Reconectando a MQTT...
+Error MQTT: getaddrinfo ENOTFOUND 1883
+Desconectado del broker MQTT
+Fetching from HA: http://192.168.90.243:8123
+✓ HA: Solar=3390W, Consumo=5862W, Bateria=990%
+Reconectando a MQTT...
+Error MQTT: getaddrinfo ENOTFOUND 1883
+Desconectado del broker MQTT
+Reconectando a MQTT...
+Fetching from HA: http://192.168.90.243:8123
+✓ HA: Solar=3390W, Consumo=5862W, Bateria=990%
+Error MQTT: getaddrinfo ENOTFOUND 1883
+Desconectado del broker MQTT
+Reconectando a MQTT...
+Error MQTT: getaddrinfo ENOTFOUND 1883
+Desconectado del broker MQTT
+Fetching from HA: http://192.168.90.243:8123
+✓ HA: Solar=3390W, Consumo=5862W, Bateria=990%
+Reconectando a MQTT...
+Error MQTT: getaddrinfo ENOTFOUND 1883
+Desconectado del broker MQTT
+Fetching from HA: http://192.168.90.243:8123
+✓ HA: Solar=3390W, Consumo=5862W, Bateria=990%
+Reconectando a MQTT...
+Error MQTT: getaddrinfo ENOTFOUND 1883
+Desconectado del broker MQTT
+Reconectando a MQTT...
+Fetching from HA: http://192.168.90.243:8123
+✓ HA: Solar=3390W, Consumo=5862W, Bateria=990%
+Error MQTT: getaddrinfo ENOTFOUND 1883
+Desconectado del broker MQTT
+Reconectando a MQTT...
+Error MQTT: getaddrinfo ENOTFOUND 1883
+Desconectado del broker MQTT
+Fetching from HA: http://192.168.90.243:8123
+✓ HA: Solar=3344W, Consumo=5753W, Bateria=990%
+Reconectando a MQTT...
+Error MQTT: getaddrinfo ENOTFOUND 1883
+Desconectado del broker MQTT
+Fetching from HA: http://192.168.90.243:8123
+Reconectando a MQTT...
+✓ HA: Solar=3642W, Consumo=5560W, Bateria=990%
+Error MQTT: getaddrinfo ENOTFOUND 1883
+Desconectado del broker MQTT
+Reconectando a MQTT...
+Error MQTT: getaddrinfo ENOTFOUND 1883
+Desconectado del broker MQTT
+Fetching from HA: http://192.168.90.243:8123
+✓ HA: Solar=3642W, Consumo=5560W, Bateria=990%
+Reconectando a MQTT...
+Error MQTT: getaddrinfo ENOTFOUND 1883
+Desconectado del broker MQTT
+Fetching from HA: http://192.168.90.243:8123
+✓ HA: Solar=3642W, Consumo=5560W, Bateria=990%
+Reconectando a MQTT...
+Error MQTT: getaddrinfo ENOTFOUND 1883
+Desconectado del broker MQTT
+Reconectando a MQTT...
+Fetching from HA: http://192.168.90.243:8123
+✓ HA: Solar=3642W, Consumo=5560W, Bateria=990%
+Error MQTT: getaddrinfo ENOTFOUND 1883
+Desconectado del broker MQTT
+Reconectando a MQTT...
+Error MQTT: getaddrinfo ENOTFOUND 1883
+Desconectado del broker MQTT
+Fetching from HA: http://192.168.90.243:8123
+✓ HA: Solar=3642W, Consumo=5560W, Bateria=990%
+Reconectando a MQTT...
+Error MQTT: getaddrinfo ENOTFOUND 1883
+Desconectado del broker MQTT
+Fetching from HA: http://192.168.90.243:8123
+✓ HA: Solar=3642W, Consumo=5560W, Bateria=990%
+Reconectando a MQTT...

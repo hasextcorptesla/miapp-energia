@@ -1,0 +1,237 @@
+
+> miapp-frontend@1.0.0 dev
+> vite
+
+
+  [32m[1mVITE[22m v5.4.21[39m  [2mready in [0m[1m2903[22m[2m[0m ms[22m
+
+  [32m➜[39m  [1mLocal[22m:   [36mhttp://localhost:[1m5173[22m/[39m
+  [32m➜[39m  [1mNetwork[22m: [36mhttp://192.168.90.100:[1m5173[22m/[39m
+[2m[32m  ➜[39m[22m[2m  press [22m[1mh + enter[22m[2m to show help[22m
+[2m10:58:26 a. m.[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/nodered/data[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m10:58:26 a. m.[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/nodered/status[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m10:58:36 a. m.[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/nodered/status[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m10:58:36 a. m.[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/nodered/data[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m10:58:43 a. m.[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/energy/current[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m10:58:43 a. m.[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/energy/daily[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m10:58:43 a. m.[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/energy/history/day[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m10:58:47 a. m.[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/nodered/status[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m10:58:47 a. m.[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/nodered/data[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m10:58:50 a. m.[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/nodered/lights[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m10:58:54 a. m.[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/nodered/air-conditioners[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m10:58:57 a. m.[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/devices[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m10:58:57 a. m.[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/admin/meters[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m10:58:57 a. m.[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/admin/alerts[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m10:58:57 a. m.[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/admin/stats[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m10:58:59 a. m.[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/energy/current[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m10:58:59 a. m.[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/energy/daily[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m10:58:59 a. m.[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/energy/history/day[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m10:59:02 a. m.[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/nodered/status[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m10:59:02 a. m.[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/nodered/data[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m10:59:12 a. m.[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/nodered/status[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m10:59:12 a. m.[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/nodered/data[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m10:59:22 a. m.[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/nodered/status[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m10:59:22 a. m.[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/nodered/data[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m10:59:32 a. m.[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/nodered/status[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m10:59:32 a. m.[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/nodered/data[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m10:59:42 a. m.[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/nodered/status[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m10:59:42 a. m.[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/nodered/data[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m10:59:45 a. m.[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/devices[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m10:59:45 a. m.[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/admin/meters[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m10:59:45 a. m.[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/admin/alerts[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m10:59:45 a. m.[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/admin/stats[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m10:59:56 a. m.[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/energy/current[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m10:59:56 a. m.[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/energy/daily[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m10:59:56 a. m.[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/energy/history/day[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m11:00:05 a. m.[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/nodered/status[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m11:00:05 a. m.[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/nodered/data[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m11:00:15 a. m.[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/nodered/status[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m11:00:15 a. m.[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/nodered/data[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m11:00:25 a. m.[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/nodered/status[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m11:00:25 a. m.[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/nodered/data[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m11:00:35 a. m.[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/nodered/status[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m11:00:35 a. m.[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/nodered/data[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m11:00:45 a. m.[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/nodered/status[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m11:00:45 a. m.[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/nodered/data[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m11:00:55 a. m.[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/nodered/status[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m11:00:55 a. m.[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/nodered/data[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m11:01:05 a. m.[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/nodered/status[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m11:01:05 a. m.[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/nodered/data[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m11:01:15 a. m.[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/nodered/status[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m11:01:15 a. m.[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/nodered/data[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m11:01:23 a. m.[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/nodered/air-conditioners[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m11:01:26 a. m.[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/nodered/lights[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m11:01:27 a. m.[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/nodered/air-conditioners[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m11:04:25 a. m.[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/views/Luces.vue[22m
+[2m11:04:57 a. m.[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/views/Clima.vue[22m
+[2m11:04:57 a. m.[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/nodered/air-conditioners[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m11:08:40 a. m.[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/views/Luces.vue[22m
+[2m11:08:40 a. m.[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/views/Luces.vue[22m
+[2m11:08:55 a. m.[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/views/Clima.vue[22m
+
+C:\Users\iacor\Documents\proyecto\has\Miapp\frontend>

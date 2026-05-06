@@ -1,0 +1,135 @@
+{
+  "app": {
+    "title": "Miapp",
+    "subtitle": "Energy Management System"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "energia": "Energy",
+    "luces": "Lights",
+    "clima": "Climate",
+    "reportes": "Reports",
+    "manual": "Manual",
+    "perfil": "Profile",
+    "admin": "Admin",
+    "logout": "Logout"
+  },
+  "dashboard": {
+    "title": "Energy Flow",
+    "live": "LIVE",
+    "balance": "Today's Energy Balance",
+    "solar": "Solar",
+    "consumo": "Consumption",
+    "export": "Export",
+    "import": "Import",
+    "generacionSolar": "Solar Generation",
+    "consumoActual": "Current Consumption",
+    "bateria": "Battery",
+    "importando": "Importing",
+    "exportando": "Exporting",
+    "generacionHoy": "Today's Generation",
+    "consumoHoy": "Today's Consumption",
+    "autoconsumo": "Self-consumption"
+  },
+  "reportes": {
+    "title": "Reports",
+    "tipo": {
+      "consumption": "Energy Consumption",
+      "generated": "Total Generated",
+      "cost": "Costs",
+      "alerts": "Alerts"
+    },
+    "rango": {
+      "day": "Today",
+      "week": "This Week",
+      "month": "This Month",
+      "year": "This Year"
+    },
+    "generar": "Generate Report",
+    "exportar": "Export PDF",
+    "totalGenerado": "Total Generated",
+    "totalConsumo": "Total Consumption",
+    "costoTotal": "Total Cost",
+    "promedioDiario": "Daily Average",
+    "maximo": "Maximum",
+    "historialConsumo": "History: Consumption vs Generation",
+    "historialGeneracion": "Solar Generation History",
+    "historialCostos": "Cost History",
+    "alertas": "Period Alerts",
+    "fecha": "Date",
+    "tipo": "Type",
+    "mensaje": "Message"
+  },
+  "admin": {
+    "title": "Administration",
+    "usuarios": "Users",
+    "agregarUsuario": "Add User",
+    "nombre": "Name",
+    "usuario": "User",
+    "rol": "Role",
+    "acciones": "Actions",
+    "eliminar": "Delete",
+    "admin": "Administrator",
+    "user": "User"
+  },
+  "perfil": {
+    "title": "User Profile",
+    "cambiarPassword": "Change Password",
+    "passwordActual": "Current Password",
+    "nuevaPassword": "New Password",
+    "confirmarPassword": "Confirm Password",
+    "guardar": "Save",
+    "actualizado": "Password updated!",
+    "error": "Error updating"
+  },
+  "login": {
+    "title": "Login",
+    "usuario": "User",
+    "password": "Password",
+    "ingresar": "Login",
+    "error": "Error logging in",
+    "noCuenta": "Don't have an account?",
+    "registrate": "Register"
+  },
+  "register": {
+    "title": "Register",
+    "nombre": "Name",
+    "usuario": "User",
+    "password": "Password",
+    "registrar": "Register",
+    "exito": "User registered!",
+    "error": "Error registering"
+  },
+  "manual": {
+    "title": "User Manual",
+    "indice": "Index",
+    "intro": "Introduction",
+    "login": "Login",
+    "dashboard": "Dashboard",
+    "energia": "Energy Management",
+    "luces": "Light Control",
+    "clima": "Climate Control",
+    "reportes": "Reports",
+    "admin": "Administration",
+    "ayuda": "Help",
+    "introContent": "Miapp is an energy management system that allows you to monitor and control the energy consumption of your home or business.",
+    "loginContent": "To access the system, enter your username and password. If you don't have an account, register by clicking the link.",
+    "dashboardContent": "The Dashboard shows the real-time energy flow. You can view solar generation, consumption, battery, and grid exchange.",
+    "energiaContent": "In the Energy section you can view detailed statistics on energy consumption and generation.",
+    "lucesContent": "Control the lights of your home by turning them on or off from this section.",
+    "climaContent": "Manage the air conditioners of your property. Turn on, off and monitor their consumption.",
+    "reportesContent": "Generate energy consumption reports. Select the report type and time period.",
+    "adminContent": "The administration section allows you to manage system users.",
+    "ayudaContent": "If you need additional help, contact the system administrator."
+  },
+  "energia": {
+    "title": "Energy Management",
+    "consumo": "Consumption"
+  },
+  "luces": {
+    "title": "Light Control"
+  },
+  "clima": {
+    "title": "Climate Control"
+  }
+}

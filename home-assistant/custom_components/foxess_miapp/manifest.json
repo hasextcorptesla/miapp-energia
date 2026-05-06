@@ -1,0 +1,11 @@
+{
+  "domain": "foxess_miapp",
+  "name": "FoxESS Miapp",
+  "documentation": "https://github.com/example/foxess_miapp",
+  "issue_tracker": "https://github.com/example/foxess_miapp/issues",
+  "codeowners": ["@yourname"],
+  "requirements": ["aiohttp"],
+  "config_flow": true,
+  "dependencies": [],
+  "version": "1.0.0"
+}

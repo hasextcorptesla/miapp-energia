@@ -1,0 +1,2 @@
+$response = Invoke-RestMethod -Uri 'http://192.168.90.243:8123/api/states' -Headers @{'Authorization'='Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJjZjk0YzliNDQ5YWI0MDU4OTYyNjY0MzBiOGY1NTQ1ZCIsImlhdCI6MTc2MTI0ODE4NSwiZXhwIjoyMDc2NjA4MTg1fQ.td4gYVW3qHq2zvHXBRu1Kusgep36Ff1UFEHbQwFu1fE'}
+$response | Where-Object { $_.entity_id -match 'export|import|dia' } | Select-Object entity_id, state | Format-Table

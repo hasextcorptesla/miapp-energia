@@ -1,0 +1,28 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "username": "admin",
+      "password": "$2a$10$qsY/PcGGvZMH0.q.y0XWeeqII0Dt8j54j2FcfvcPuUPptsKn9nhAu",
+      "email": "admin@miapp.com",
+      "role": "admin",
+      "created_at": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "id": 1776708926508,
+      "username": "hector",
+      "password": "$2a$10$5490fuAXci86wAZefxylY.ZNDzVRia.Okx8bo5aHMtxSni9U9Y8m.",
+      "email": "hjsanchez080@gmail.com",
+      "role": "user",
+      "created_at": "2026-04-20T18:15:26.508Z"
+    },
+    {
+      "id": 1776710783780,
+      "username": "Jireh",
+      "password": "$2a$10$2KN/tMN6nEnXpxkwq6zWH.45QEa.Z40nuatvJ5GU9oXxI1zomAKx.",
+      "email": "ygallardo@corptesla.com",
+      "role": "user",
+      "created_at": "2026-04-20T18:46:23.780Z"
+    }
+  ]
+}
