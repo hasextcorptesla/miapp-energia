@@ -4,13 +4,16 @@ import router from './router'
 import axios from 'axios'
 import './style.css'
 
-// Usar proxy en desarrollo, ngrok en producción
+// Siempre usar ngrok en producción
 const isDev = import.meta.env.DEV
-const apiUrl = import.meta.env.VITE_API_URL || 'https://undoing-sprite-jeep.ngrok-free.dev'
+const apiUrl = 'https://undoing-sprite-jeep.ngrok-free.dev'
 
 if (!isDev) {
   axios.defaults.baseURL = apiUrl
   axios.defaults.headers.common['ngrok-skip-browser-warning'] = '1'
+  console.log('Production API URL:', apiUrl)
+} else {
+  console.log('Development mode - using proxy')
 }
 
 console.log('API URL:', apiUrl)
