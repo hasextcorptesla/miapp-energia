@@ -8,6 +8,7 @@ import './style.css'
 const apiUrl = import.meta.env.VITE_API_URL
 if (apiUrl) {
   axios.defaults.baseURL = apiUrl
+  axios.defaults.headers.common['ngrok-skip-browser-warning'] = '1'
 }
 
 console.log('API URL:', apiUrl)
