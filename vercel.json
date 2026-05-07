@@ -1,16 +1,11 @@
 {
   "builds": [
     {
-      "src": "frontend/dist/index.html",
-      "use": "static"
-    },
-    {
-      "src": "frontend/dist/assets/**",
-      "use": "static"
+      "src": "frontend/dist/**",
+      "use": "@vercel/static"
     }
   ],
   "routes": [
-    { "handle": "filesystem" },
-    { "src": "/(.*)", "dest": "/frontend/dist/index.html" }
+    { "src": "/(.*)", "dest": "/frontend/dist/$1" }
   ]
 }
