@@ -5,8 +5,10 @@ import axios from 'axios'
 import './style.css'
 
 // Usar proxy en desarrollo, VITE_API_URL en producción
+const isDev = import.meta.env.DEV
 const apiUrl = import.meta.env.VITE_API_URL
-if (apiUrl) {
+
+if (!isDev && apiUrl) {
   axios.defaults.baseURL = apiUrl
   axios.defaults.headers.common['ngrok-skip-browser-warning'] = '1'
 }
