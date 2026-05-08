@@ -1,9 +1,5 @@
 {
-  "builds": [
-    {
-      "src": "frontend/dist",
-      "use": "static"
-    }
-  ],
-  "outputDirectory": "frontend/dist"
+  "github": {
+    "silent": true
+  }
 }
