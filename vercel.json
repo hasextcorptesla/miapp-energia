@@ -1,8 +1,8 @@
 {
-  "build": {
-    "output": "frontend/dist"
-  },
-  "rewrites": [
-    { "source": "/:path*", "destination": "/index.html" }
+  "builds": [
+    {
+      "src": "frontend/dist/**",
+      "use": "static"
+    }
   ]
 }
