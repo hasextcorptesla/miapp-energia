@@ -11,9 +11,10 @@ import Perfil from '../views/Perfil.vue'
 import Manual from '../views/Manual.vue'
 
 const routes = [
+  { path: '/', name: 'Login', component: Login },
   { path: '/login', name: 'Login', component: Login },
   { path: '/register', name: 'Register', component: Register },
-  { path: '/', name: 'Dashboard', component: Dashboard, meta: { requiresAuth: true } },
+  { path: '/dashboard', name: 'Dashboard', component: Dashboard, meta: { requiresAuth: true } },
   { path: '/energia', name: 'Energia', component: Energia, meta: { requiresAuth: true } },
   { path: '/luces', name: 'Luces', component: Luces, meta: { requiresAuth: true } },
   { path: '/clima', name: 'Clima', component: Clima, meta: { requiresAuth: true } },
@@ -24,7 +25,7 @@ const routes = [
 ]
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHashHistory(),
   routes
 })
 

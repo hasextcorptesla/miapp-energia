@@ -95,7 +95,7 @@ const handleLogin = async () => {
       localStorage.setItem('token', response.data.token)
       localStorage.setItem('user', JSON.stringify(response.data.user))
       window.dispatchEvent(new Event('storage'))
-      router.push('/')
+      router.push('/dashboard')
     }
   } catch (err) {
     error.value = err.response?.data?.error || 'Error al iniciar sesión'

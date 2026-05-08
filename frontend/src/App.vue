@@ -78,7 +78,7 @@ const route = useRoute()
 const isAuthenticated = ref(!!localStorage.getItem('token'))
 
 const navLinks = [
-  { to: '/', label: 'Dashboard' },
+  { to: '/dashboard', label: 'Dashboard' },
   { to: '/energia', label: 'Energía' },
   { to: '/luces', label: 'Luces' },
   { to: '/clima', label: 'Clima' },
@@ -110,6 +110,6 @@ const logout = () => {
   localStorage.removeItem('token')
   localStorage.removeItem('user')
   isAuthenticated.value = false
-  router.push('/login')
+  router.push('/')
 }
 </script>
