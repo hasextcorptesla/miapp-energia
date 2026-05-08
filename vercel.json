@@ -1,6 +1,7 @@
 {
-  "outputDirectory": "frontend/dist",
-  "cleanUrls": false,
+  "build": {
+    "output": "frontend/dist"
+  },
   "rewrites": [
     { "source": "/:path*", "destination": "/index.html" }
   ]
