@@ -90,18 +90,31 @@ async function fetchLights() {
 }
 
 async function toggleLight(id, state) {
+  // Actualizar UI inmediatamente (sin esperar servidor)
+  const originalState = state
+  const lightIndex = lights.value.findIndex(l => l.id === id)
+  if (lightIndex !== -1) {
+    lights.value[lightIndex].state = state === 'on' ? 'off' : 'on'
+  }
+  
   try {
     const action = state === 'on' ? 'off' : 'on'
     console.log('Toggle light:', id, action)
     const res = await axios.post('/api/nodered/light/control', { entity_id: id, action })
     console.log('Response:', res.data)
-    if (res.data.success) {
-      await fetchLights()
-    } else {
+    if (!res.data.success) {
+      // Revertir si hay error
+      if (lightIndex !== -1) {
+        lights.value[lightIndex].state = originalState
+      }
       alert('Error: ' + (res.data.error || 'No se pudo controlar la luz'))
     }
   } catch (err) {
     console.error('Error toggle light:', err)
+    // Revertir si hay error
+    if (lightIndex !== -1) {
+      lights.value[lightIndex].state = originalState
+    }
     alert('Error al controlar la luz: ' + err.message)
   }
 }

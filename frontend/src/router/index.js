@@ -30,7 +30,27 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  next()
+  const token = localStorage.getItem('token')
+  
+  // Si la ruta requiere auth y no hay token, ir a login
+  if (to.meta.requiresAuth && !token) {
+    next('/login')
+  } 
+  // Si ya está logueado e intenta entrar a /login, ir a dashboard
+  else if (to.path === '/login' && token) {
+    next('/dashboard')
+  }
+  // Si no está logueado e intenta entrar a / (raíz), ir a login
+  else if (to.path === '/' && !token) {
+    next('/login')
+  }
+  // Si está logueado e intenta entrar a / (raíz), ir a dashboard
+  else if (to.path === '/' && token) {
+    next('/dashboard')
+  }
+  else {
+    next()
+  }
 })
 
 export default router
