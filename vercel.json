@@ -1,11 +1,17 @@
 {
-  "github": {
-    "silent": true
-  },
   "builds": [
     {
       "src": "frontend/dist",
       "use": "static"
+    }
+  ],
+  "routes": [
+    {
+      "handle": "filesystem"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
     }
   ]
 }
