@@ -110,7 +110,7 @@ async function fetchFromHomeAssistant() {
     }
 
     const tempSwitches = {
-      salon: { 24: 'switch.temp_24_salon3', 25: 'switch.temp_25_salon3', 26: 'switch.temp_26_salon3' },
+      salon: { 24: 'switch.temp24_salon3', 25: 'switch.temp25_salon3', 26: 'switch.temp26_salon3' },
       recepcion: { 24: 'switch.temp_24_recepcion', 25: 'switch.temp_25_recepcion', 26: 'switch.temp_26_recepcion' },
       diseno: { 24: 'switch.temp24_aire2', 25: 'switch.temp25_aire2', 26: 'switch.temp26_aire2' },
       laboratorio: { 24: 'switch.temp_24_aire4', 25: 'switch.temp_25_aire4', 26: 'switch.temp_26_aire4' }
@@ -168,13 +168,13 @@ async function fetchFromHomeAssistant() {
   return cachedData;
 }
 
-export function startPolling(intervalMs = 5000) {
+export function startPolling(intervalMs = 3000) {
   const { HA_URL } = getHaConfig();
   console.log('Iniciando polling HA cada ' + intervalMs + 'ms...');
   console.log('HA URL:', HA_URL);
-  
+
   fetchFromHomeAssistant();
-  
+
   setInterval(fetchFromHomeAssistant, intervalMs);
 }
 
@@ -212,7 +212,7 @@ export async function controlSwitch(entityId, action) {
       entity_id: entityId
     }, {
       headers: { 'Authorization': `Bearer ${HA_TOKEN}` },
-      timeout: 5000
+      timeout: 10000
     });
 
     console.log('HA Response:', response.data);

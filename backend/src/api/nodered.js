@@ -215,7 +215,7 @@ router.post('/ac/temperature', async (req, res) => {
   const { id, temperature } = req.body;
   try {
     const tempMap = {
-      'salon': { 24: 'switch.temp_24_salon3', 25: 'switch.temp_25_salon3', 26: 'switch.temp_26_salon3' },
+      'salon': { 24: 'switch.temp24_salon3', 25: 'switch.temp25_salon3', 26: 'switch.temp26_salon3' },
       'recepcion': { 24: 'switch.temp_24_recepcion', 25: 'switch.temp_25_recepcion', 26: 'switch.temp_26_recepcion' },
       'diseno': { 24: 'switch.temp24_aire2', 25: 'switch.temp25_aire2', 26: 'switch.temp26_aire2' },
       'laboratorio': { 24: 'switch.temp_24_aire4', 25: 'switch.temp_25_aire4', 26: 'switch.temp_26_aire4' }

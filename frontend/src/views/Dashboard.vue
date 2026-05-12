@@ -1,33 +1,33 @@
 <template>
-  <div class="space-y-6">
+  <div class="space-y-4 sm:space-y-6">
     <!-- Header -->
-    <div class="flex items-center justify-between">
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
       <div class="flex items-center gap-2">
-        <svg class="w-8 h-8 text-amber-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-        <h1 class="text-2xl font-bold text-white">Energy Flow</h1>
+        <svg class="w-6 sm:w-8 h-6 sm:h-8 text-amber-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        <h1 class="text-xl sm:text-2xl lg:text-3xl font-bold text-white">Energy Flow</h1>
       </div>
-      <div class="flex items-center gap-2 px-3 py-1.5 bg-emerald-500/20 border border-emerald-500/30 rounded-full">
+      <div class="flex items-center gap-2 px-3 py-1.5 bg-emerald-500/20 border border-emerald-500/30 rounded-full self-start sm:self-auto">
         <span class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></span>
         <span class="text-emerald-400 text-sm font-medium">LIVE</span>
       </div>
     </div>
 
     <!-- Flow Diagram -->
-    <div class="glass-card p-4">
+    <div class="glass-card p-3 sm:p-4">
       <svg ref="svgRef" class="w-full h-auto" viewBox="0 0 800 320"></svg>
     </div>
 
     <!-- Balance Bars -->
     <div class="glass-card p-3">
       <h2 class="text-base font-semibold text-white mb-1">Balance Energético Hoy</h2>
-      <div class="flex justify-around items-end gap-2 h-32">
+      <div class="flex justify-around items-end gap-1 sm:gap-2 h-24 sm:h-32">
         <!-- Solar -->
         <div class="flex flex-col items-center">
-          <div 
-            class="w-14 bg-gradient-to-t from-amber-600 to-amber-400 rounded-t-lg transition-all duration-500"
+          <div
+            class="w-8 sm:w-14 bg-gradient-to-t from-amber-600 to-amber-400 rounded-t-lg transition-all duration-500"
             :style="{ height: solarBarHeight + '%' }"
           ></div>
-          <span class="text-amber-400 font-bold text-sm mt-1">{{ solarDia.toFixed(1) }} kWh</span>
+          <span class="text-amber-400 font-bold text-xs sm:text-sm mt-1">{{ solarDia.toFixed(1) }} kWh</span>
           <span class="text-slate-400 text-xs">Solar</span>
         </div>
         <!-- Consumo -->
@@ -163,38 +163,12 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onUnmounted, nextTick } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
 import axios from 'axios'
 import * as d3 from 'd3'
 import { Chart, registerables } from 'chart.js'
 
 Chart.register(...registerables)
-
-// Iconos centrados en 0,0 - diseñados para llenar el círculo r=28
-const iconPaths = {
-  // Sol centrado - más grande
-  sun: 'M0 -14v3M0 11v3M-10-9l2 2M8 7l2 2M-12 0h3M9 0h3M-8 12l-2-2M10 9l-2-2M0 -6a7 7 0 1 0 0 14 7 7 0 0 0 0-14z',
-  // Zap centrado - más grande
-  zap: 'M-3 -12l-10 15h7l-1.5 8 9.5-12h-7l1.5-6z',
-  // Battery centrado - más grande
-  battery: 'M4 -8h14v-3H4v16h14v-3H6V-5h12v-3H4zM16 -10h3v4h-3z',
-  // Plug centrado - más grande
-  plug: 'M0 14v-6M-6 -6v-4h12v4M8 -6v-5a4 4 0 0 0-4-4h-6a4 4 0 0 0-4 4v6z',
-  // Cpu centrado - más grande
-  cpu: 'M-7 -7h14v14H-7zM-10 -7h3v3h-3zM7 -7h3v3h-3zM-10 6h3v3h-3zM7 6h3v3h-3zM-7 11h3v3h-3zM4 11h3v3h-3z'
-}
-
-// Funciones para dibujar iconos centrados
-function drawIconPath(g, path, color, scale = 1.5) {
-  g.append('path')
-    .attr('d', path)
-    .attr('fill', 'none')
-    .attr('stroke', color)
-    .attr('stroke-width', 1.5)
-    .attr('stroke-linecap', 'round')
-    .attr('stroke-linejoin', 'round')
-    .attr('transform', `scale(${scale}) translate(${-12/scale}, ${-12/scale})`)
-}
 
 const svgRef = ref(null)
 const chartCanvas = ref(null)
@@ -215,19 +189,19 @@ const width = 800
 const height = 380
 
 const nodes = {
-  panels: { x: 400, y: 40, label: 'Generación Solar', icon: 'solar', active: false },
-  inverter: { x: 400, y: 160, label: 'Inversor', icon: 'inverter', active: false },
-  battery: { x: 80, y: 150, label: 'Batería', icon: 'battery', active: false },
-  house: { x: 400, y: 260, label: 'Consumo', icon: 'house', active: false },
-  grid: { x: 720, y: 150, label: 'Red Eléctrica', icon: 'grid', active: false, importing: false }
+  panels: { x: 400, y: 65, label: 'Panel Solar' },
+  inverter: { x: 400, y: 190, label: 'Inversor' },
+  battery: { x: 130, y: 200, label: 'Batería' },
+  house: { x: 400, y: 320, label: 'Casa' },
+  grid: { x: 680, y: 100, label: 'Red' }
 }
 
 const flows = [
-  { id: 'solarToInv', from: 'panels', to: 'inverter', color: '#f59e0b', getActive: () => solarPower.value > 50 },
-  { id: 'invToBattery', from: 'inverter', to: 'battery', color: '#22c55e', getActive: () => solarPower.value > 300 && batterySoc.value < 100 },
-  { id: 'invToHouse', from: 'inverter', to: 'house', color: '#3b82f6', getActive: () => consumoPower.value > 0 },
-  { id: 'invToGrid', from: 'inverter', to: 'grid', color: '#10b981', getActive: () => solarPower.value > consumoPower.value + 500 },
-  { id: 'gridToInv', from: 'grid', to: 'inverter', color: '#ef4444', getActive: () => solarPower.value < consumoPower.value }
+  { id: 'solarToInv', from: 'panels', to: 'inverter', color: '#f59e0b', path: 'M400,85 L400,160 L400,170', getActive: () => solarPower.value > 50 },
+  { id: 'invToBattery', from: 'inverter', to: 'battery', color: '#a855f7', path: 'M370,190 L250,190 L250,195 L170,195 L170,200', getActive: () => solarPower.value > 300 && batterySoc.value < 100 },
+  { id: 'invToHouse', from: 'inverter', to: 'house', color: '#3b82f6', path: 'M400,210 L400,280 L400,300', getActive: () => consumoPower.value > 0 },
+  { id: 'invToGrid', from: 'inverter', to: 'grid', color: '#10b981', path: 'M440,190 L580,190 L580,140 L660,140 L660,100', getActive: () => solarPower.value > consumoPower.value + 500 },
+  { id: 'gridToInv', from: 'grid', to: 'inverter', color: '#ef4444', path: 'M660,120 L660,160 L580,160 L580,200 L440,200', getActive: () => solarPower.value < consumoPower.value }
 ]
 
 const maxDaily = computed(() => {
@@ -299,37 +273,58 @@ function initSvg() {
     .attr('d', 'M0,-5L10,0L0,5')
     .attr('fill', '#64748b')
   
-  const glow = defs.append('filter').attr('id', 'glow')
-  glow.append('feGaussianBlur').attr('stdDeviation', '3').attr('result', 'coloredBlur')
-  const feMerge = glow.append('feMerge')
-  feMerge.append('feMergeNode').attr('in', 'coloredBlur')
-  feMerge.append('feMergeNode').attr('in', 'SourceGraphic')
+  const createGlow = (id, intensity) => {
+    const glow = defs.append('filter').attr('id', id)
+    glow.append('feGaussianBlur').attr('stdDeviation', intensity).attr('result', 'coloredBlur')
+    const feMerge = glow.append('feMerge')
+    feMerge.append('feMergeNode').attr('in', 'coloredBlur')
+    feMerge.append('feMergeNode').attr('in', 'SourceGraphic')
+  }
   
+  const bgImage = defs.append('pattern')
+    .attr('id', 'board-bg')
+    .attr('width', '100%')
+    .attr('height', '100%')
+    .attr('patternUnits', 'userSpaceOnUse')
+  
+  bgImage.append('image')
+    .attr('href', '/tablero.png')
+    .attr('x', 0)
+    .attr('y', 0)
+    .attr('width', width)
+    .attr('height', height)
+    .attr('preserveAspectRatio', 'xMidYMid meet')
+  
+  createGlow('glow-soft', 3)
+  createGlow('glow-medium', 6)
+  createGlow('glow-strong', 10)
+  createGlow('glow-ultra', 15)
+  
+  svg.append('rect')
+    .attr('width', width)
+    .attr('height', height)
+    .attr('fill', 'url(#board-bg)')
+    .attr('class', 'background-layer')
+  
+  svg.append('g').attr('class', 'paths-layer')
+  svg.append('g').attr('class', 'nodes-layer')
+  svg.append('g').attr('class', 'particles-layer')
+  
+  const pathsLayer = svg.select('.paths-layer')
   flows.forEach(flow => {
-    const from = nodes[flow.from]
-    const to = nodes[flow.to]
-    const midX = (from.x + to.x) / 2
-    const midY = (from.y + to.y) / 2
-    
-    let pathD
-    if (from.x === to.x) {
-      pathD = `M${from.x},${from.y} L${to.x},${to.y}`
-    } else {
-      pathD = `M${from.x},${from.y} L${midX},${from.y} L${midX},${to.y} L${to.x},${to.y}`
-    }
-    
-    svg.append('path')
+    pathsLayer.append('path')
       .attr('id', `path-${flow.id}`)
-      .attr('d', pathD)
+      .attr('d', flow.path)
       .attr('fill', 'none')
       .attr('stroke', '#334155')
-      .attr('stroke-width', 4)
+      .attr('stroke-width', 2)
       .attr('stroke-linecap', 'round')
       .attr('stroke-linejoin', 'round')
   })
   
+  const nodesLayer = svg.select('.nodes-layer')
   Object.entries(nodes).forEach(([key, node]) => {
-    const g = svg.append('g')
+    const g = nodesLayer.append('g')
       .attr('class', `node-${key}`)
       .attr('transform', `translate(${node.x}, ${node.y})`)
       .style('cursor', 'help')
@@ -344,144 +339,18 @@ function initSvg() {
       })
       .on('mouseleave', hideTooltip)
     
-    const circle = g.append('circle')
-      .attr('r', 24)
-      .attr('fill', '#1e293b')
-      .attr('stroke', '#475569')
-      .attr('stroke-width', 1.5)
-      .style('filter', 'url(#glow)')
-    
-    if (key === 'panels') {
-      drawSolarPanels(g)
-    } else if (key === 'inverter') {
-      drawInverter(g)
-    } else if (key === 'battery') {
-      // Icono Battery - paths ya centrados
-      g.append('path')
-        .attr('d', iconPaths.battery)
-        .attr('fill', 'none')
-        .attr('stroke', '#a855f7')
-        .attr('stroke-width', 1.5)
-        .attr('stroke-linecap', 'round')
-        .attr('stroke-linejoin', 'round')
-      
-      // Nivel de batería overlay
-      const level = Math.min(100, batterySoc.value)
-      g.append('rect')
-        .attr('x', -5).attr('y', -6)
-        .attr('width', 10).attr('height', 8 * level / 100)
-        .attr('fill', level > 50 ? '#22c55e' : level > 20 ? '#f59e0b' : '#ef4444')
-        .attr('rx', 1)
-      
-      g.append('text')
-        .attr('text-anchor', 'middle')
-        .attr('dy', '48px')
-        .attr('fill', '#a855f7')
-        .attr('font-size', '11px')
-        .attr('font-weight', '600')
-        .text('Batería')
-    } else if (key === 'house') {
-      // Icono Plug - paths ya centrados
-      g.append('path')
-        .attr('d', iconPaths.plug)
-        .attr('fill', 'none')
-        .attr('stroke', '#3b82f6')
-        .attr('stroke-width', 1.5)
-        .attr('stroke-linecap', 'round')
-        .attr('stroke-linejoin', 'round')
-      
-      g.append('text')
-        .attr('text-anchor', 'start')
-        .attr('x', 30)
-        .attr('y', 5)
-        .attr('fill', '#3b82f6')
-        .attr('font-size', '11px')
-        .attr('font-weight', '600')
-        .text('Consumo')
-    } else if (key === 'grid') {
-      const color = gridPower.value > 0 ? '#ef4444' : '#10b981'
-      // Icono Zap - paths ya centrados
-      g.append('path')
-        .attr('d', iconPaths.zap)
-        .attr('fill', 'none')
-        .attr('stroke', color)
-        .attr('stroke-width', 1.5)
-        .attr('stroke-linecap', 'round')
-        .attr('stroke-linejoin', 'round')
-      
-      g.append('text')
-        .attr('text-anchor', 'start')
-        .attr('x', 30)
-        .attr('y', 5)
-        .attr('fill', color)
-        .attr('font-size', '11px')
-        .attr('font-weight', '600')
-        .text('Red')
-    }
-    
     g.append('text')
       .attr('text-anchor', 'middle')
-      .attr('dy', node.y < 100 ? '-40px' : '40px')
-      .attr('fill', '#94a3b8')
+      .attr('dy', '0px')
+      .attr('fill', '#1e293b')
       .attr('font-size', '11px')
       .attr('font-weight', '600')
-      .text('')
+      .attr('paint-order', 'stroke')
+      .attr('stroke', '#ffffff')
+      .attr('stroke-width', 2)
+      .attr('class', 'node-label')
+      .text(node.label)
   })
-}
-
-function drawSolarPanels(g) {
-  const brightness = Math.min(1, solarPower.value / 3000)
-  const fillColor = d3.interpolate('#78350f', '#f59e0b')(brightness)
-  
-  // Icono Sun - paths ya centrados
-  g.append('path')
-    .attr('d', iconPaths.sun)
-    .attr('fill', 'none')
-    .attr('stroke', '#f59e0b')
-    .attr('stroke-width', 1.5)
-    .attr('stroke-linecap', 'round')
-    .attr('stroke-linejoin', 'round')
-  
-  // Centro del sol
-  g.append('circle')
-    .attr('cx', 0).attr('cy', 0)
-    .attr('r', 4)
-    .attr('fill', fillColor)
-  
-  g.append('text')
-    .attr('text-anchor', 'start')
-    .attr('x', 30)
-    .attr('y', 5)
-    .attr('fill', '#f59e0b')
-    .attr('font-size', '11px')
-    .attr('font-weight', '600')
-    .text('Solar')
-}
-
-function drawInverter(g) {
-  // Icono Cpu - paths ya centrados
-  g.append('path')
-    .attr('d', iconPaths.cpu)
-    .attr('fill', 'none')
-    .attr('stroke', '#f59e0b')
-    .attr('stroke-width', 1.5)
-    .attr('stroke-linecap', 'round')
-    .attr('stroke-linejoin', 'round')
-  
-  // LED indicador
-  g.append('circle')
-    .attr('cx', 12).attr('cy', -10)
-    .attr('r', 2)
-    .attr('fill', '#22c55e')
-  
-  g.append('text')
-    .attr('text-anchor', 'start')
-    .attr('x', 30)
-    .attr('y', 28)
-    .attr('fill', '#f59e0b')
-    .attr('font-size', '11px')
-    .attr('font-weight', '600')
-    .text('Inversor')
 }
 
 function updateFlows() {
@@ -497,45 +366,93 @@ function updateFlows() {
   }
 
   svg.selectAll('.flow-particle').remove()
+  svg.selectAll('.flow-trail').remove()
+  svg.selectAll('.flow-glow').remove()
+
+  const pathsLayer = svg.select('.paths-layer')
+  const particlesLayer = svg.select('.particles-layer')
 
   flows.forEach((flow, index) => {
-    const pathEl = svg.select(`#path-${flow.id}`)
+    const pathEl = pathsLayer.select(`#path-${flow.id}`)
     const isActive = flow.getActive()
     const pathNode = pathEl.node()
-    const pathLength = pathNode ? pathNode.getTotalLength() : 0
 
     if (isActive) {
       pathEl
         .attr('stroke', flow.color)
-        .attr('stroke-width', 4)
-        .attr('stroke-opacity', 1)
-        .attr('stroke-dasharray', `8,12`)
-        .style('animation', `dashMove${index} 0.8s linear infinite`)
+        .attr('stroke-width', 2)
+        .attr('stroke-opacity', 0.6)
+        .attr('stroke-dasharray', `6,10`)
+        .style('animation', `dashMove${index} 0.5s linear infinite`)
 
       if (!svg.select(`#dashAnim${index}`).size()) {
-        const style = svg.append('style')
+        svg.append('style')
           .attr('id', `dashAnim${index}`)
           .text(`
             @keyframes dashMove${index} {
               0% { stroke-dashoffset: 0; }
-              100% { stroke-dashoffset: -20; }
+              100% { stroke-dashoffset: -28; }
             }
           `)
       }
 
-      for (let i = 0; i < 3; i++) {
-        const particle = svg.append('circle')
-          .attr('class', 'flow-particle')
-          .attr('r', 5)
-          .attr('fill', flow.color)
-          .style('filter', 'url(#glow)')
+      const intensity = Math.min(1, (
+        (flow.id === 'solarToInv' ? solarPower.value :
+         flow.id === 'invToHouse' ? consumoPower.value :
+         flow.id === 'invToBattery' ? solarPower.value :
+         flow.id === 'invToGrid' || flow.id === 'gridToInv' ? Math.abs(gridPower.value) : 0) / 2000
+      ))
+      const baseSpeed = 0.4 + (1 - intensity) * 1.2
+      const particleCount = Math.max(2, Math.floor(3 + intensity * 4))
 
-        const animate = particle.append('animateMotion')
-          .attr('dur', `${2 + i * 0.5}s`)
+      for (let i = 0; i < particleCount; i++) {
+        const delay = i * (baseSpeed / particleCount)
+        
+        const glow = particlesLayer.append('circle')
+          .attr('class', 'flow-glow')
+          .attr('r', 6 + intensity * 4)
+          .attr('fill', flow.color)
+          .attr('opacity', 0.2 + intensity * 0.2)
+          .style('filter', 'url(#glow-soft)')
+
+        const trail = particlesLayer.append('circle')
+          .attr('class', 'flow-trail')
+          .attr('r', 3 + intensity * 2)
+          .attr('fill', flow.color)
+          .attr('opacity', 0.4)
+          .style('filter', 'url(#glow-soft)')
+
+        const particle = particlesLayer.append('circle')
+          .attr('class', 'flow-particle')
+          .attr('r', 2 + intensity * 2)
+          .attr('fill', '#ffffff')
+          .attr('stroke', flow.color)
+          .attr('stroke-width', 1)
+          .style('filter', 'url(#glow-soft)')
+
+        const animateGlow = glow.append('animateMotion')
+          .attr('dur', `${baseSpeed}s`)
+          .attr('begin', `${delay}s`)
+          .attr('repeatCount', 'indefinite')
+          .attr('calcMode', 'spline')
+          .attr('keyTimes', '0;1')
+          .attr('keyPoints', '0;1')
+
+        const animateTrail = trail.append('animateMotion')
+          .attr('dur', `${baseSpeed}s`)
+          .attr('begin', `${delay + 0.05}s`)
+          .attr('repeatCount', 'indefinite')
+
+        const animateParticle = particle.append('animateMotion')
+          .attr('dur', `${baseSpeed}s`)
+          .attr('begin', `${delay + 0.1}s`)
           .attr('repeatCount', 'indefinite')
 
         if (pathNode) {
-          animate.attr('path', pathEl.attr('d'))
+          const pathD = pathEl.attr('d')
+          animateGlow.attr('path', pathD)
+          animateTrail.attr('path', pathD)
+          animateParticle.attr('path', pathD)
         }
       }
     } else {
@@ -549,7 +466,7 @@ function updateFlows() {
   })
 }
 
-async function fetchData() {
+  async function fetchData() {
   try {
     const res = await axios.get('/api/nodered/energy/current')
     if (res.data.success) {
@@ -562,10 +479,65 @@ async function fetchData() {
       exportDia.value = res.data.exportDia || 0
       importDia.value = res.data.importDia || 0
       updateFlows()
+      updateNodeEffects()
     }
   } catch (err) {
     console.error('Error fetching data:', err)
   }
+}
+
+function updateNodeEffects() {
+  if (!svg) return
+  
+  svg.selectAll('.glow-circle').each(function() {
+    const parent = d3.select(this.parentNode)
+    const classList = parent.attr('class') || ''
+    
+    if (classList.includes('node-panels')) {
+      const solarIntensity = Math.min(1, solarPower.value / 3000)
+      const solarGlow = solarIntensity > 0.7 ? 'glow-ultra' : solarIntensity > 0.4 ? 'glow-strong' : solarIntensity > 0.1 ? 'glow-medium' : 'glow-soft'
+      d3.select(this)
+        .attr('stroke', solarIntensity > 0.1 ? '#f59e0b' : '#475569')
+        .attr('stroke-width', 2 + solarIntensity * 4)
+        .style('filter', `url(#${solarGlow})`)
+    }
+    
+    if (classList.includes('node-house')) {
+      const consumoIntensity = Math.min(1, consumoPower.value / 3000)
+      const houseGlow = consumoIntensity > 0.5 ? 'glow-strong' : consumoIntensity > 0.2 ? 'glow-medium' : 'glow-soft'
+      d3.select(this)
+        .attr('stroke', '#3b82f6')
+        .attr('stroke-width', 2 + consumoIntensity * 4)
+        .style('filter', `url(#${houseGlow})`)
+    }
+    
+    if (classList.includes('node-grid')) {
+      const gridColor = gridPower.value > 0 ? '#ef4444' : gridPower.value < 0 ? '#10b981' : '#475569'
+      const gridGlow = Math.abs(gridPower.value) > 500 ? 'glow-strong' : Math.abs(gridPower.value) > 100 ? 'glow-medium' : 'glow-soft'
+      d3.select(this)
+        .attr('stroke', gridColor)
+        .attr('stroke-width', Math.abs(gridPower.value) > 100 ? 4 : 2)
+        .style('filter', `url(#${gridGlow})`)
+    }
+    
+    if (classList.includes('node-battery')) {
+      const batColor = batterySoc.value > 50 ? '#a855f7' : batterySoc.value > 20 ? '#f59e0b' : '#ef4444'
+      const batGlow = batterySoc.value > 80 ? 'glow-strong' : batterySoc.value > 40 ? 'glow-medium' : 'glow-soft'
+      d3.select(this)
+        .attr('stroke', batColor)
+        .attr('stroke-width', 2 + (batterySoc.value / 100) * 4)
+        .style('filter', `url(#${batGlow})`)
+    }
+    
+    if (classList.includes('node-inverter')) {
+      const invIntensity = Math.min(1, (solarPower.value + consumoPower.value) / 5000)
+      const invGlow = invIntensity > 0.6 ? 'glow-strong' : invIntensity > 0.3 ? 'glow-medium' : 'glow-soft'
+      d3.select(this)
+        .attr('stroke', '#f59e0b')
+        .attr('stroke-width', 2 + invIntensity * 4)
+        .style('filter', `url(#${invGlow})`)
+    }
+  })
 }
 
 async function fetchHourlyData() {
@@ -681,6 +653,7 @@ onMounted(() => {
       fetchData()
       fetchHourlyData()
       updateFlows()
+      updateNodeEffects()
     }, 500)
   }, 100)
 
@@ -688,6 +661,7 @@ onMounted(() => {
     fetchData()
     fetchHourlyData()
     setTimeout(updateFlows, 300)
+    setTimeout(updateNodeEffects, 300)
   }, 5000)
 })
 
