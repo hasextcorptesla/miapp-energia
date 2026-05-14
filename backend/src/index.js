@@ -10,6 +10,7 @@ import adminRouter from './api/admin.js';
 import foxessRouter from './api/foxess.js';
 import noderedRouter from './api/nodered.js';
 import reportsRouter from './api/reports.js';
+import medidorRouter from './api/medidor.js';
 import mqttService from './services/mqtt.js';
 import noderedService from './services/nodered.js';
 import { startDataLogging } from './services/dataLogger.js';
@@ -35,6 +36,7 @@ app.use('/api/admin', adminRouter);
 app.use('/api/foxess', foxessRouter);
 app.use('/api/nodered', noderedRouter);
 app.use('/api/reports', reportsRouter);
+app.use('/api/medidor', medidorRouter);
 
 io.on('connection', (socket) => {
   console.log('Cliente conectado:', socket.id);

@@ -3,6 +3,7 @@ import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
 import Dashboard from '../views/Dashboard.vue'
 import Energia from '../views/Energia.vue'
+import Medidor from '../views/Medidor.vue'
 import Luces from '../views/Luces.vue'
 import Clima from '../views/Clima.vue'
 import Admin from '../views/Admin.vue'
@@ -16,6 +17,7 @@ const routes = [
   { path: '/register', name: 'Register', component: Register },
   { path: '/dashboard', name: 'Dashboard', component: Dashboard, meta: { requiresAuth: true } },
   { path: '/energia', name: 'Energia', component: Energia, meta: { requiresAuth: true } },
+  { path: '/medidor', name: 'Medidor', component: Medidor, meta: { requiresAuth: true } },
   { path: '/luces', name: 'Luces', component: Luces, meta: { requiresAuth: true } },
   { path: '/clima', name: 'Clima', component: Clima, meta: { requiresAuth: true } },
   { path: '/admin', name: 'Admin', component: Admin, meta: { requiresAuth: true, requiresAdmin: true } },

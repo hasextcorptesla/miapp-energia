@@ -61,6 +61,21 @@ db.exec(`
     created_at TEXT DEFAULT CURRENT_TIMESTAMP,
     UNIQUE(date, hour)
   );
+
+  CREATE TABLE IF NOT EXISTS medidor (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    consumo_acumulado REAL DEFAULT 37380,
+    generacion_acumulado REAL DEFAULT 29117,
+    dia_cierre INTEGER DEFAULT 1,
+    anio_actual INTEGER DEFAULT 2026,
+    mes_actual INTEGER DEFAULT 5,
+    consumo_mes_actual REAL DEFAULT 0,
+    generacion_mes_actual REAL DEFAULT 0,
+    excedente_favor REAL DEFAULT 0,
+    excedente_contra REAL DEFAULT 0,
+    ultimo_cierre TEXT,
+    created_at TEXT DEFAULT CURRENT_TIMESTAMP
+  );
 `);
 
 export function saveDailyLog(date, data) {

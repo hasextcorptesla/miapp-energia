@@ -1,83 +1,83 @@
 <template>
-  <div class="space-y-6">
-    <h1 class="text-2xl font-bold text-white">Energía en Tiempo Real</h1>
-    
+  <div class="space-y-4 sm:space-y-6">
+    <h1 class="text-xl sm:text-2xl lg:text-3xl font-bold text-white">Energía en Tiempo Real</h1>
+
     <!-- Status Bar -->
-    <div class="flex items-center justify-between glass-card p-4">
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between glass-card p-3 sm:p-4 gap-2">
       <span class="flex items-center gap-2">
         <span class="w-2 h-2 rounded-full" :class="mqttConnected ? 'bg-emerald-400' : 'bg-red-400'"></span>
         <span :class="mqttConnected ? 'text-emerald-400' : 'text-red-400'">
           {{ mqttConnected ? '● Conectado' : '○ Desconectado' }}
         </span>
       </span>
-      <span class="text-slate-400 text-sm">Última actualización: {{ lastUpdate }}</span>
+      <span class="text-slate-400 text-xs sm:text-sm">Última actualización: {{ lastUpdate }}</span>
     </div>
-    
+
     <!-- Energy Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
       <!-- Solar -->
-      <div class="glass-card-hover p-5 border-l-4 border-l-amber-500">
-        <div class="flex items-center gap-3 mb-3">
-          <span class="text-3xl">☀️</span>
-          <span class="text-slate-400">Generación Solar</span>
+      <div class="glass-card-hover p-4 sm:p-5 border-l-4 border-l-amber-500">
+        <div class="flex items-center gap-2 sm:gap-3 mb-2 sm:mb-3">
+          <span class="text-2xl sm:text-3xl">☀️</span>
+          <span class="text-slate-400 text-sm sm:text-base">Generación Solar</span>
         </div>
-        <div class="text-3xl font-bold text-amber-400">{{ solarPower.toFixed(0) }} <span class="text-lg text-slate-400">W</span></div>
-        <div class="text-sm text-slate-500 mt-1">Potencia Instantánea</div>
+        <div class="text-2xl sm:text-3xl font-bold text-amber-400">{{ solarPower.toFixed(0) }} <span class="text-base sm:text-lg text-slate-400">W</span></div>
+        <div class="text-xs sm:text-sm text-slate-500 mt-1">Potencia Instantánea</div>
       </div>
-      
+
       <!-- Solar Día -->
-      <div class="glass-card-hover p-5 border-l-4 border-l-yellow-500">
-        <div class="flex items-center gap-3 mb-3">
-          <span class="text-3xl">🌞</span>
-          <span class="text-slate-400">Solar Día</span>
+      <div class="glass-card-hover p-4 sm:p-5 border-l-4 border-l-yellow-500">
+        <div class="flex items-center gap-2 sm:gap-3 mb-2 sm:mb-3">
+          <span class="text-2xl sm:text-3xl">🌞</span>
+          <span class="text-slate-400 text-sm sm:text-base">Solar Día</span>
         </div>
-        <div class="text-3xl font-bold text-yellow-400">{{ solarDia.toFixed(2) }} <span class="text-lg text-slate-400">kWh</span></div>
-        <div class="text-sm text-slate-500 mt-1">Generado Hoy</div>
+        <div class="text-2xl sm:text-3xl font-bold text-yellow-400">{{ solarDia.toFixed(2) }} <span class="text-base sm:text-lg text-slate-400">kWh</span></div>
+        <div class="text-xs sm:text-sm text-slate-500 mt-1">Generado Hoy</div>
       </div>
-      
+
       <!-- Consumo -->
-      <div class="glass-card-hover p-5 border-l-4 border-l-blue-500">
-        <div class="flex items-center gap-3 mb-3">
-          <span class="text-3xl">🔌</span>
-          <span class="text-slate-400">Consumo Oficina</span>
+      <div class="glass-card-hover p-4 sm:p-5 border-l-4 border-l-blue-500">
+        <div class="flex items-center gap-2 sm:gap-3 mb-2 sm:mb-3">
+          <span class="text-2xl sm:text-3xl">🔌</span>
+          <span class="text-slate-400 text-sm sm:text-base">Consumo Oficina</span>
         </div>
-        <div class="text-3xl font-bold text-blue-400">{{ potencia.toFixed(0) }} <span class="text-lg text-slate-400">W</span></div>
-        <div class="text-sm text-slate-500 mt-1">Potencia Total</div>
+        <div class="text-2xl sm:text-3xl font-bold text-blue-400">{{ potencia.toFixed(0) }} <span class="text-base sm:text-lg text-slate-400">W</span></div>
+        <div class="text-xs sm:text-sm text-slate-500 mt-1">Potencia Total</div>
       </div>
-      
+
       <!-- Consumo Día -->
-      <div class="glass-card-hover p-5 border-l-4 border-l-cyan-500">
-        <div class="flex items-center gap-3 mb-3">
-          <span class="text-3xl">📊</span>
-          <span class="text-slate-400">Consumo Día</span>
+      <div class="glass-card-hover p-4 sm:p-5 border-l-4 border-l-cyan-500">
+        <div class="flex items-center gap-2 sm:gap-3 mb-2 sm:mb-3">
+          <span class="text-2xl sm:text-3xl">📊</span>
+          <span class="text-slate-400 text-sm sm:text-base">Consumo Día</span>
         </div>
-        <div class="text-3xl font-bold text-cyan-400">{{ consumoDia.toFixed(2) }} <span class="text-lg text-slate-400">kWh</span></div>
-        <div class="text-sm text-slate-500 mt-1">Consumido Hoy</div>
+        <div class="text-2xl sm:text-3xl font-bold text-cyan-400">{{ consumoDia.toFixed(2) }} <span class="text-base sm:text-lg text-slate-400">kWh</span></div>
+        <div class="text-xs sm:text-sm text-slate-500 mt-1">Consumido Hoy</div>
       </div>
-      
+
       <!-- Importado -->
-      <div class="glass-card-hover p-5 border-l-4 border-l-red-500">
-        <div class="flex items-center gap-3 mb-3">
-          <span class="text-3xl">⬇️</span>
-          <span class="text-slate-400">Importado</span>
+      <div class="glass-card-hover p-4 sm:p-5 border-l-4 border-l-red-500">
+        <div class="flex items-center gap-2 sm:gap-3 mb-2 sm:mb-3">
+          <span class="text-2xl sm:text-3xl">⬇️</span>
+          <span class="text-slate-400 text-sm sm:text-base">Importado</span>
         </div>
-        <div class="text-3xl font-bold text-red-400">{{ importado.toFixed(0) }} <span class="text-lg text-slate-400">W</span></div>
-        <div class="text-sm text-slate-500 mt-1">De Red</div>
+        <div class="text-2xl sm:text-3xl font-bold text-red-400">{{ importado.toFixed(0) }} <span class="text-base sm:text-lg text-slate-400">W</span></div>
+        <div class="text-xs sm:text-sm text-slate-500 mt-1">De Red</div>
       </div>
-      
+
       <!-- Exportado -->
-      <div class="glass-card-hover p-5 border-l-4 border-l-emerald-500">
-        <div class="flex items-center gap-3 mb-3">
-          <span class="text-3xl">⬆️</span>
-          <span class="text-slate-400">Exportado</span>
+      <div class="glass-card-hover p-4 sm:p-5 border-l-4 border-l-emerald-500">
+        <div class="flex items-center gap-2 sm:gap-3 mb-2 sm:mb-3">
+          <span class="text-2xl sm:text-3xl">⬆️</span>
+          <span class="text-slate-400 text-sm sm:text-base">Exportado</span>
         </div>
-        <div class="text-3xl font-bold text-emerald-400">{{ exportado.toFixed(0) }} <span class="text-lg text-slate-400">W</span></div>
-        <div class="text-sm text-slate-500 mt-1">A Red</div>
+        <div class="text-2xl sm:text-3xl font-bold text-emerald-400">{{ exportado.toFixed(0) }} <span class="text-base sm:text-lg text-slate-400">W</span></div>
+        <div class="text-xs sm:text-sm text-slate-500 mt-1">A Red</div>
       </div>
     </div>
-    
+
     <!-- Aires -->
-    <div class="glass-card p-6">
+    <div class="glass-card p-4 sm:p-6">
       <h2 class="text-xl font-semibold text-white mb-4">Aires Acondicionados</h2>
 
       <!-- Total Aires -->
@@ -166,7 +166,7 @@ const fetchData = async () => {
 
 onMounted(() => {
   fetchData()
-  intervalId = setInterval(fetchData, 5000)
+  intervalId = setInterval(fetchData, 3000)
 })
 
 onUnmounted(() => {
