@@ -1,5 +1,6 @@
 import express from 'express';
 import db from '../config/sqlite.js';
+import { getEnergyData } from '../services/nodered.js';
 
 const router = express.Router();
 
@@ -10,6 +11,16 @@ function getMedidorData() {
     medidor = db.prepare('SELECT * FROM medidor WHERE id = 1').get();
     console.log('Medidor inicializado con valores:', medidor);
   }
+
+  // Obtener valores de Home Assistant (entidades diarias)
+  const energyData = getEnergyData();
+  const importDia = parseFloat(energyData.importDia) || 0;
+  const exportDia = parseFloat(energyData.exportDia) || 0;
+
+  // Sobrescribir con valores de HA (entidades nodered_import_diia y nodered_export_diia)
+  medidor.consumo_acumulado = importDia;
+  medidor.generacion_acumulado = exportDia;
+
   return medidor;
 }
 
