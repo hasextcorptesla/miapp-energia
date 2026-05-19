@@ -97,7 +97,7 @@
   </button>
 </div>
 
-    <div v-if="showAjustar" class="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4" @click.self="showAjustar = false">
+    <div v-if="showAjustar" class="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4" @click.self="cerrarAjustar">
       <div class="glass-card p-6 w-full max-w-md">
         <h3 class="text-xl font-bold text-white mb-4">Ajustar Valores del Medidor</h3>
         <div class="space-y-4">
@@ -111,7 +111,7 @@
           </div>
           <div class="flex gap-2">
             <button @click="guardarAjuste" class="btn-primary flex-1">Guardar</button>
-            <button @click="showAjustar = false" class="btn-secondary flex-1">Cancelar</button>
+            <button @click="cerrarAjustar" class="btn-secondary flex-1">Cancelar</button>
           </div>
         </div>
       </div>
@@ -197,6 +197,10 @@ const maxGrafico = computed(() => {
 })
 
 async function fetchMedidor() {
+  // No actualizar si algún modal está abierto (para permitir edición)
+  if (showAjustar.value || showConfig.value || showHistorial.value) {
+    return
+  }
   try {
     const res = await axios.get('/api/medidor/data')
     if (res.data.success) {
@@ -204,12 +208,6 @@ async function fetchMedidor() {
       mesNombre.value = res.data.data.mes_nombre
       anio.value = res.data.data.anio_actual
       config.value.dia_cierre = res.data.data.dia_cierre
-      // Only update ajuste values if the adjustment modal is NOT open
-      // to avoid overwriting user input in the form
-      if (!showAjustar.value) {
-        ajuste.value.consumo = res.data.data.consumo_total
-        ajuste.value.generacion = res.data.data.generacion_total
-      }
     }
   } catch (err) {
     console.error('Error:', err)
@@ -239,22 +237,25 @@ async function fetchHistorial() {
 }
 
 async function openAjustar(tipo) {
-  showAjustar.value = true
-  // Ensure we have the latest data before opening the adjustment modal
-  await fetchMedidor()
-  if (tipo === 'consumo') {
-    // Solo ajustar consumo, mantener generación actual
-    ajuste.value.consumo = medidor.value.consumo_total || 0
-    ajuste.value.generacion = medidor.value.generacion_total || 0
-  } else if (tipo === 'generacion') {
-    // Solo ajustar generación, mantener consumo actual
-    ajuste.value.consumo = medidor.value.consumo_total || 0
-    ajuste.value.generacion = medidor.value.generacion_total || 0
-  } else {
-    // Ambos (llamado desde el botón principal)
+  // Cargar valores actuales solo si no hay valores guardados previamente
+  if (ajuste.value.consumo === 0 && ajuste.value.generacion === 0) {
     ajuste.value.consumo = medidor.value.consumo_total || 0
     ajuste.value.generacion = medidor.value.generacion_total || 0
   }
+  
+  if (tipo === 'consumo') {
+    ajuste.value.consumo = medidor.value.consumo_total || 0
+  } else if (tipo === 'generacion') {
+    ajuste.value.generacion = medidor.value.generacion_total || 0
+  }
+  
+  showAjustar.value = true
+}
+
+function cerrarAjustar() {
+  showAjustar.value = false
+  ajuste.value.consumo = 0
+  ajuste.value.generacion = 0
 }
 
 async function guardarAjuste() {
