@@ -7,9 +7,65 @@
     
     <div class="perfil-card">
       <div class="user-info">
-        <div class="avatar">{{ user?.username?.charAt(0).toUpperCase() }}</div>
+        <div class="avatar" :style="{ backgroundImage: avatarImage }">
+          <img v-if="profileImage" :src="profileImage" alt="Perfil" />
+          <span v-else>{{ user?.username?.charAt(0).toUpperCase() }}</span>
+        </div>
         <h2>{{ user?.username }}</h2>
         <span class="role-badge">{{ user?.role === 'admin' ? 'Administrador' : 'Usuario' }}</span>
+      </div>
+    </div>
+    
+    <div class="perfil-card">
+      <h3>Apariencia</h3>
+      <div class="form-group">
+        <label>Tema de la aplicación</label>
+        <div class="theme-selector">
+          <label class="theme-option">
+            <input 
+              type="radio" 
+              name="theme" 
+              value="light" 
+              :checked="currentTheme === 'light'"
+              @change="setTheme('light')"
+            />
+            <span>Claro ☀️</span>
+          </label>
+          <label class="theme-option">
+            <input 
+              type="radio" 
+              name="theme" 
+              value="dark" 
+              :checked="currentTheme === 'dark'"
+              @change="setTheme('dark')"
+            />
+            <span>Oscuro 🌙</span>
+          </label>
+          <label class="theme-option">
+            <input 
+              type="radio" 
+              name="theme" 
+              value="silver" 
+              :checked="currentTheme === 'silver'"
+              @change="setTheme('silver')"
+            />
+            <span>Plateado ⚪</span>
+          </label>
+        </div>
+      </div>
+    </div>
+    
+    <div class="perfil-card">
+      <h3>Foto de Perfil</h3>
+      <div class="form-group">
+        <label>Cambiar foto de perfil</label>
+        <input 
+          type="file" 
+          accept="image/*" 
+          @change="onProfileImageChange"
+          class="file-input"
+        />
+        <p class="file-hint">Formatos permitidos: JPG, PNG, PNG (máx. 5MB)</p>
       </div>
     </div>
     
@@ -81,7 +137,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import axios from 'axios'
 
@@ -91,6 +147,67 @@ const user = computed(() => {
   const stored = localStorage.getItem('user')
   return stored ? JSON.parse(stored) : { username: 'Usuario', role: 'user' }
 })
+
+// Theme management
+const currentTheme = ref(localStorage.getItem('theme') || 'light')
+
+// Profile image management
+const profileImage = ref(null)
+const avatarImage = ref('')
+
+onMounted(() => {
+  // Apply saved theme on load
+  applyTheme(currentTheme.value)
+  
+  // Load saved profile image
+  const savedImage = localStorage.getItem('profileImage')
+  if (savedImage) {
+    profileImage.value = savedImage
+    avatarImage.value = `url('${savedImage}')`
+  }
+})
+
+const applyTheme = (theme) => {
+  // Remove all theme classes
+  document.documentElement.classList.remove('theme-light', 'theme-dark', 'theme-silver')
+  // Add the selected theme
+  document.documentElement.classList.add(`theme-${theme}`)
+  // Save to localStorage
+  localStorage.setItem('theme', theme)
+  currentTheme.value = theme
+}
+
+const setTheme = (theme) => {
+  applyTheme(theme)
+}
+
+const onProfileImageChange = (e) => {
+  const file = e.target.files[0]
+  if (file) {
+    // Validate file type
+    if (!file.type.startsWith('image/')) {
+      alert('Por favor selecciona un archivo de imagen')
+      return
+    }
+    
+    // Validate file size (5MB max)
+    if (file.size > 5 * 1024 * 1024) {
+      alert('El archivo es demasiado grande. Máximo 5MB permitido')
+      return
+    }
+    
+    // Convert to base64
+    const reader = new FileReader()
+    reader.onload = (event) => {
+      const base64Image = event.target.result
+      profileImage.value = base64Image
+      avatarImage.value = `url('${base64Image}')`
+      // Save to localStorage
+      localStorage.setItem('profileImage', base64Image)
+    }
+    reader.readAsDataURL(file)
+  }
+}
 
 const currentPassword = ref('')
 const newPassword = ref('')
@@ -142,6 +259,8 @@ const changePassword = async () => {
 const logout = () => {
   localStorage.removeItem('token')
   localStorage.removeItem('user')
+  localStorage.removeItem('theme')
+  localStorage.removeItem('profileImage')
   router.push('/login')
 }
 </script>
