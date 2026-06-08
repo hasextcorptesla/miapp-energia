@@ -85,12 +85,17 @@ router.post('/ajustar', (req, res) => {
     console.log('Ajustar - recibido:', req.body);
 
     const currentMedidor = getMedidorData();
+    console.log('Ajustar - valores actuales antes de update:', currentMedidor);
 
     if (consumo !== undefined && consumo !== null && consumo !== '') {
-      db.prepare('UPDATE medidor SET consumo_acumulado = ? WHERE id = 1').run(parseFloat(consumo));
+      const consumoNum = parseFloat(consumo);
+      console.log('Ajustar - actualizando consumo a:', consumoNum);
+      db.prepare('UPDATE medidor SET consumo_acumulado = ? WHERE id = 1').run(consumoNum);
     }
     if (generacion !== undefined && generacion !== null && generacion !== '') {
-      db.prepare('UPDATE medidor SET generacion_acumulado = ? WHERE id = 1').run(parseFloat(generacion));
+      const generacionNum = parseFloat(generacion);
+      console.log('Ajustar - actualizando generación a:', generacionNum);
+      db.prepare('UPDATE medidor SET generacion_acumulado = ? WHERE id = 1').run(generacionNum);
     }
 
     const medidor = getMedidorData();
@@ -119,6 +124,88 @@ router.post('/configurar', (req, res) => {
     res.json({ success: true, message: `Día de cierre configurado: ${dia}`, data: medidor });
   } catch (error) {
     console.error('Error configurar:', error);
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+router.get('/detalle', (req, res) => {
+  try {
+    const medidor = getMedidorData();
+    const diaCierre = medidor.dia_cierre || 1;
+    const anioSel = parseInt(req.query.anio) || new Date().getFullYear();
+    const mesSel = parseInt(req.query.mes) || new Date().getMonth() + 1;
+
+    let fechaInicio, fechaFin, labelInicio, labelFin;
+
+    if (mesSel === 1) {
+      fechaInicio = `${anioSel - 1}-12-${String(diaCierre).padStart(2, '0')}`;
+      fechaFin = `${anioSel}-01-${String(diaCierre - 1).padStart(2, '0')}`;
+      labelInicio = `12/Dic/${anioSel - 1}`;
+      labelFin = `01/Ene/${anioSel}`;
+    } else {
+      const mesAnt = String(mesSel - 1).padStart(2, '0');
+      const mesStr = String(mesSel).padStart(2, '0');
+      const ultimoDiaMesAnt = new Date(anioSel, mesSel - 1, 0).getDate();
+      const finDia = diaCierre - 1 > 0 ? diaCierre - 1 : ultimoDiaMesAnt;
+      fechaInicio = `${anioSel}-${mesAnt}-${String(diaCierre).padStart(2, '0')}`;
+      fechaFin = `${anioSel}-${mesStr}-${String(finDia).padStart(2, '0')}`;
+      labelInicio = `${String(diaCierre).padStart(2, '0')}/${mesAnt}/${anioSel}`;
+      labelFin = `${String(finDia).padStart(2, '0')}/${mesStr}/${anioSel}`;
+    }
+
+    const registros = db.prepare(`
+      SELECT date, solar_dia, consumo_dia, export_dia, import_dia
+      FROM daily_logs
+      WHERE date >= ? AND date <= ?
+      ORDER BY date ASC
+    `).all(fechaInicio, fechaFin);
+
+    const data = [];
+    let totalConsumo = 0;
+    let totalGeneracion = 0;
+    let totalExport = 0;
+    let totalImport = 0;
+
+    for (const r of registros) {
+      const consumo = r.consumo_dia || 0;
+      const generacion = r.solar_dia || 0;
+      const balance = consumo - generacion;
+
+      totalConsumo += consumo;
+      totalGeneracion += generacion;
+      totalExport += r.export_dia || 0;
+      totalImport += r.import_dia || 0;
+
+      data.push({
+        fecha: r.date,
+        dia: parseInt(r.date.split('-')[2]),
+        consumo,
+        generacion,
+        balance,
+        export: r.export_dia || 0,
+        import: r.import_dia || 0
+      });
+    }
+
+    res.json({
+      success: true,
+      data,
+      resumen: {
+        anio: anioSel,
+        mes: mesSel,
+        diaCierre,
+        fechaInicio: labelInicio,
+        fechaFin: labelFin,
+        totalConsumo,
+        totalGeneracion,
+        balanceTotal: totalConsumo - totalGeneracion,
+        totalExport,
+        totalImport,
+        saldoFavor: medidor.excedente_favor,
+        saldoContra: medidor.excedente_contra
+      }
+    });
+  } catch (error) {
     res.status(500).json({ success: false, error: error.message });
   }
 });
@@ -191,19 +278,27 @@ router.post('/cerrar-mes', (req, res) => {
   try {
     const medidor = getMedidorData();
     const ahora = new Date();
+    const diaCierre = medidor.dia_cierre || 1;
 
     const anio = ahora.getFullYear();
     const mes = ahora.getMonth() + 1;
 
-    const desdeFecha = `${anio}-${String(mes).padStart(2, '0')}-01`;
+    let desdeFecha;
+    if (ahora.getDate() < diaCierre) {
+      const mesPasado = mes === 1 ? 12 : mes - 1;
+      const anioPasado = mesPasado === 12 ? anio - 1 : anio;
+      desdeFecha = `${anioPasado}-${String(mesPasado).padStart(2, '0')}-${String(diaCierre).padStart(2, '0')}`;
+    } else {
+      desdeFecha = `${anio}-${String(mes).padStart(2, '0')}-${String(diaCierre).padStart(2, '0')}`;
+    }
 
     const consumoMes = db.prepare(`
-      SELECT SUM(consumo_dia) as total FROM daily_logs WHERE date >= ?
-    `).get(desdeFecha);
+      SELECT SUM(consumo_dia) as total FROM daily_logs WHERE date >= ? AND date <= ?
+    `).get(desdeFecha, ahora.toISOString().split('T')[0]);
 
     const generacionMes = db.prepare(`
-      SELECT SUM(solar_dia) as total FROM daily_logs WHERE date >= ?
-    `).get(desdeFecha);
+      SELECT SUM(solar_dia) as total FROM daily_logs WHERE date >= ? AND date <= ?
+    `).get(desdeFecha, ahora.toISOString().split('T')[0]);
 
     const consumoDelMes = consumoMes?.total || 0;
     const generacionDelMes = generacionMes?.total || 0;

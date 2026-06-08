@@ -1,4 +1,5 @@
 import noderedService from './nodered.js';
+import db from '../config/sqlite.js';
 import { saveDailyLog, saveHourlyLog, aggregateMonthly, aggregateYearly, getDailyLogs, getMonthlyLogs, getYearlyLogs, getHourlyLogs, getReportData } from '../config/sqlite.js';
 import schedule from 'node-schedule';
 
@@ -77,6 +78,60 @@ export function startDataLogging() {
     const year = new Date().getFullYear();
     aggregateYearly(year);
     console.log(`✓ Agregado anual: ${year}`);
+  });
+
+  schedule.scheduleJob('0 3 * * *', () => {
+    try {
+      const medidor = db.prepare('SELECT * FROM medidor WHERE id = 1').get();
+      if (!medidor) return;
+
+      const ahora = new Date();
+      const diaCierre = medidor.dia_cierre || 1;
+
+      if (ahora.getDate() !== diaCierre) return;
+
+      const mes = ahora.getMonth() + 1;
+      const anio = ahora.getFullYear();
+
+      let desdeFecha;
+      if (mes === 1) {
+        desdeFecha = `${anio - 1}-12-${String(diaCierre).padStart(2, '0')}`;
+      } else {
+        const mesAnt = String(mes - 1).padStart(2, '0');
+        desdeFecha = `${anio}-${mesAnt}-${String(diaCierre).padStart(2, '0')}`;
+      }
+
+      const hastaFecha = `${anio}-${String(mes).padStart(2, '0')}-${String(diaCierre - 1).padStart(2, '0')}`;
+
+      const consumoMes = db.prepare(`
+        SELECT SUM(consumo_dia) as total FROM daily_logs WHERE date >= ? AND date <= ?
+      `).get(desdeFecha, hastaFecha);
+
+      const generacionMes = db.prepare(`
+        SELECT SUM(solar_dia) as total FROM daily_logs WHERE date >= ? AND date <= ?
+      `).get(desdeFecha, hastaFecha);
+
+      const consumoDelMes = consumoMes?.total || 0;
+      const generacionDelMes = generacionMes?.total || 0;
+      const balance = consumoDelMes - generacionDelMes;
+
+      if (balance < 0) {
+        const nuevoExcedente = medidor.excedente_favor + Math.abs(balance);
+        db.prepare('UPDATE medidor SET excedente_favor = ? WHERE id = 1').run(nuevoExcedente);
+        console.log(`✓ Cierre automático: crédito +${Math.abs(balance).toFixed(1)} kWh (total: ${nuevoExcedente.toFixed(1)} kWh)`);
+      } else if (balance > 0) {
+        const nuevoExcedente = medidor.excedente_contra + balance;
+        db.prepare('UPDATE medidor SET excedente_contra = ? WHERE id = 1').run(nuevoExcedente);
+        console.log(`✓ Cierre automático: deuda +${balance.toFixed(1)} kWh (total: ${nuevoExcedente.toFixed(1)} kWh)`);
+      } else {
+        console.log(`✓ Cierre automático: balance 0, sin cambio`);
+      }
+
+      db.prepare('UPDATE medidor SET ultimo_cierre = ?, consumo_mes_actual = 0, generacion_mes_actual = 0 WHERE id = 1')
+        .run(ahora.toISOString());
+    } catch (error) {
+      console.error('Error en cierre automático:', error.message);
+    }
   });
   
   console.log('✓ Sistema de guardado iniciado (cada 5 min)');
