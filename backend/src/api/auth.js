@@ -2,55 +2,40 @@ import express from 'express';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import config from '../config/database.js';
-import { readFileSync, writeFileSync, existsSync } from 'fs';
-import { fileURLToPath } from 'url';
-import { dirname, join } from 'path';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+import supabase from '../config/supabase.js';
 
 const router = express.Router();
-const DB_PATH = join(__dirname, '../../users.json');
-
-let users = [];
-
-function loadDB() {
-  if (existsSync(DB_PATH)) {
-    const data = readFileSync(DB_PATH, 'utf-8');
-    const parsed = JSON.parse(data);
-    users = parsed.users || [];
-  }
-}
-
-function saveDB() {
-  writeFileSync(DB_PATH, JSON.stringify({ users }, null, 2));
-}
-
-loadDB();
 
 router.post('/register', async (req, res) => {
   try {
     const { username, password, email } = req.body;
     
-    if (users.find(u => u.username === username)) {
+    const { data: existing } = await supabase
+      .from('users')
+      .select('id')
+      .eq('username', username)
+      .single();
+    
+    if (existing) {
       return res.status(400).json({ success: false, error: 'Usuario ya existe' });
     }
     
     const hashedPassword = await bcrypt.hash(password, 10);
     
-    const newUser = {
-      id: Date.now(),
-      username,
-      password: hashedPassword,
-      email,
-      role: 'user',
-      created_at: new Date().toISOString()
-    };
+    const { data, error } = await supabase
+      .from('users')
+      .insert([{
+        username,
+        password: hashedPassword,
+        email,
+        role: 'user'
+      }])
+      .select('id')
+      .single();
     
-    users.push(newUser);
-    saveDB();
+    if (error) throw error;
     
-    res.json({ success: true, userId: newUser.id });
+    res.json({ success: true, userId: data.id });
   } catch (error) {
     res.status(400).json({ success: false, error: error.message });
   }
@@ -60,8 +45,13 @@ router.put('/password', async (req, res) => {
   try {
     const { username, currentPassword, newPassword } = req.body;
     
-    const user = users.find(u => u.username === username);
-    if (!user) {
+    const { data: user, error: findErr } = await supabase
+      .from('users')
+      .select('*')
+      .eq('username', username)
+      .single();
+    
+    if (findErr || !user) {
       return res.status(404).json({ success: false, error: 'Usuario no encontrado' });
     }
     
@@ -70,8 +60,11 @@ router.put('/password', async (req, res) => {
       return res.status(401).json({ success: false, error: 'Contraseña actual incorrecta' });
     }
     
-    user.password = await bcrypt.hash(newPassword, 10);
-    saveDB();
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    await supabase
+      .from('users')
+      .update({ password: hashedPassword })
+      .eq('id', user.id);
     
     res.json({ success: true });
   } catch (error) {
@@ -83,8 +76,13 @@ router.post('/login', async (req, res) => {
   try {
     const { username, password } = req.body;
     
-    const user = users.find(u => u.username === username);
-    if (!user) {
+    const { data: user, error: findErr } = await supabase
+      .from('users')
+      .select('*')
+      .eq('username', username)
+      .single();
+    
+    if (findErr || !user) {
       return res.status(401).json({ success: false, error: 'Usuario no encontrado' });
     }
     

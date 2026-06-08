@@ -2,6 +2,7 @@ import express from 'express';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import config from '../config/database.js';
+import supabase from '../config/supabase.js';
 import { readFileSync, writeFileSync, existsSync } from 'fs';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
@@ -10,24 +11,11 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const router = express.Router();
-const DB_PATH = join(__dirname, '../../users.json');
 const METERS_PATH = join(__dirname, '../../meters.json');
 const ALERTS_PATH = join(__dirname, '../../alerts.json');
 
-let users = [];
 let meters = [];
 let alerts = [];
-
-function loadUsers() {
-  if (existsSync(DB_PATH)) {
-    const data = readFileSync(DB_PATH, 'utf-8');
-    users = JSON.parse(data).users || [];
-  }
-}
-
-function saveUsers() {
-  writeFileSync(DB_PATH, JSON.stringify({ users }, null, 2));
-}
 
 function loadMeters() {
   if (existsSync(METERS_PATH)) {
@@ -51,7 +39,6 @@ function saveAlerts() {
   writeFileSync(ALERTS_PATH, JSON.stringify(alerts, null, 2));
 }
 
-loadUsers();
 loadMeters();
 loadAlerts();
 
@@ -214,16 +201,15 @@ router.get('/stats', authenticate, (req, res) => {
   }
 });
 
-router.get('/users', authenticate, (req, res) => {
+router.get('/users', authenticate, async (req, res) => {
   try {
-    const userList = users.map(u => ({
-      id: u.id,
-      username: u.username,
-      email: u.email,
-      role: u.role,
-      created_at: u.created_at
-    }));
-    res.json({ success: true, users: userList });
+    const { data: users, error } = await supabase
+      .from('users')
+      .select('id, username, email, role, created_at');
+    
+    if (error) throw error;
+    
+    res.json({ success: true, users });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
   }
@@ -233,40 +219,56 @@ router.post('/users', authenticate, async (req, res) => {
   try {
     const { username, email, password } = req.body;
     
-    if (users.find(u => u.username === username)) {
+    const { data: existing } = await supabase
+      .from('users')
+      .select('id')
+      .eq('username', username)
+      .single();
+    
+    if (existing) {
       return res.status(400).json({ success: false, error: 'Usuario ya existe' });
     }
     
     const hashedPassword = await bcrypt.hash(password, 10);
     
-    const newUser = {
-      id: Date.now(),
-      username,
-      email,
-      password: hashedPassword,
-      role: 'user',
-      created_at: new Date().toISOString()
-    };
+    const { data, error } = await supabase
+      .from('users')
+      .insert([{
+        username,
+        email,
+        password: hashedPassword,
+        role: 'user'
+      }])
+      .select('id')
+      .single();
     
-    users.push(newUser);
-    saveUsers();
-    res.json({ success: true, userId: newUser.id });
+    if (error) throw error;
+    res.json({ success: true, userId: data.id });
   } catch (error) {
     res.status(400).json({ success: false, error: error.message });
   }
 });
 
-router.delete('/users/:id', authenticate, (req, res) => {
+router.delete('/users/:id', authenticate, async (req, res) => {
   try {
-    const id = parseInt(req.params.id);
+    const id = req.params.id;
     
-    const userToDelete = users.find(u => u.id === id);
+    const { data: userToDelete } = await supabase
+      .from('users')
+      .select('role')
+      .eq('id', id)
+      .single();
+    
     if (userToDelete?.role === 'admin') {
       return res.status(400).json({ success: false, error: 'No puedes eliminar admins' });
     }
     
-    users = users.filter(u => u.id !== id);
-    saveUsers();
+    const { error } = await supabase
+      .from('users')
+      .delete()
+      .eq('id', id);
+    
+    if (error) throw error;
     res.json({ success: true });
   } catch (error) {
     res.status(400).json({ success: false, error: error.message });
@@ -275,15 +277,16 @@ router.delete('/users/:id', authenticate, (req, res) => {
 
 router.put('/users/:id/password', authenticate, async (req, res) => {
   try {
-    const id = parseInt(req.params.id);
+    const id = req.params.id;
     const { password } = req.body;
     
-    const index = users.findIndex(u => u.id === id);
-    if (index !== -1) {
-      users[index].password = await bcrypt.hash(password, 10);
-      saveUsers();
-    }
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const { error } = await supabase
+      .from('users')
+      .update({ password: hashedPassword })
+      .eq('id', id);
     
+    if (error) throw error;
     res.json({ success: true });
   } catch (error) {
     res.status(400).json({ success: false, error: error.message });
