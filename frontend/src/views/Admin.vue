@@ -60,7 +60,7 @@
           <label>Tipo</label>
           <select v-model="newDevice.type" class="form-input">
             <option value="light">Luz</option>
-            <option value="ac">AC/Clima</option>
+            <option value="ac">AC/Climatización</option>
             <option value="energy">Energía</option>
             <option value="outlet">Enchufe</option>
             <option value="sensor">Sensor</option>

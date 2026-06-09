@@ -10,7 +10,7 @@
         <li><a href="#dashboard" @click="scrollTo('dashboard')">3. Dashboard</a></li>
         <li><a href="#energia" @click="scrollTo('energia')">4. Energía</a></li>
         <li><a href="#luces" @click="scrollTo('luces')">5. Luces</a></li>
-        <li><a href="#clima" @click="scrollTo('clima')">6. Clima</a></li>
+        <li><a href="#clima" @click="scrollTo('clima')">6. Climatización</a></li>
         <li><a href="#reportes" @click="scrollTo('reportes')">7. Reportes</a></li>
         <li><a href="#perfil" @click="scrollTo('perfil')">8. Mi Perfil</a></li>
       </ul>
@@ -97,7 +97,7 @@
     </div>
     
     <div class="manual-section" id="clima">
-      <h2>6. Clima (Aire Acondicionado)</h2>
+      <h2>6. Climatización (Aire Acondicionado)</h2>
       <p>Control de aire acondicionado:</p>
       <ol>
         <li>Seleccione el AC deseada</li>

@@ -7,7 +7,7 @@
     "dashboard": "Dashboard",
     "energia": "Energía",
     "luces": "Luces",
-    "clima": "Clima",
+    "clima": "Climatización",
     "reportes": "Reportes",
     "manual": "Manual",
     "perfil": "Perfil",
@@ -108,7 +108,7 @@
     "dashboard": "Dashboard",
     "energia": "Gestión de Energía",
     "luces": "Control de Luces",
-    "clima": "Control de Clima",
+    "clima": "Control de Climatización",
     "reportes": "Reportes",
     "admin": "Administración",
     "ayuda": "Ayuda",
@@ -130,6 +130,6 @@
     "title": "Control de Luces"
   },
   "clima": {
-    "title": "Control de Clima"
+    "title": "Control de Climatización"
   }
 }

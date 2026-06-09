@@ -1,7 +1,7 @@
 const translations = {
   es: {
     app: { title: "Miapp", subtitle: "Sistema de Gestión de Energía" },
-    nav: { dashboard: "Dashboard", energia: "Energía", luces: "Luces", clima: "Clima", reportes: "Reportes", manual: "Manual", perfil: "Perfil", admin: "Admin", logout: "Salir" },
+    nav: { dashboard: "Dashboard", energia: "Energía", luces: "Luces", clima: "Climatización", reportes: "Reportes", manual: "Manual", perfil: "Perfil", admin: "Admin", logout: "Salir" },
     dashboard: { title: "Energy Flow", live: "LIVE", balance: "Balance Energético Hoy", solar: "Solar", consumo: "Consumo", export: "Export", import: "Import", generacionSolar: "Generación Solar", consumoActual: "Consumo Actual", bateria: "Batería", importando: "Importando", exportando: "Exportando", generacionHoy: "Generación Hoy", consumoHoy: "Consumo Hoy", autoconsumo: "Autoconsumo" },
     reportes: { title: "Reportes", tipo: { consumption: "Consumo de Energía", generated: "Total Generado", cost: "Costos", alerts: "Alertas" }, rango: { day: "Hoy", week: "Esta Semana", month: "Este Mes", year: "Este Año" }, generar: "Generar Reporte", exportar: "Exportar PDF", totalGenerado: "Total Generado", totalConsumo: "Total Consumo", costoTotal: "Costo Total", promedioDiario: "Promedio Diario", maximo: "Máximo", historialConsumo: "Historial: Consumo vs Generación", historialGeneracion: "Historial de Generación Solar", historialCostos: "Historial de Costos", alertas: "Alertas del Período", fecha: "Fecha", tipo: "Tipo", mensaje: "Mensaje" },
     admin: { title: "Administración", usuarios: "Usuarios", devices: "Dispositivos", meters: "Medidores", alerts: "Alertas", stats: "Estadísticas" },

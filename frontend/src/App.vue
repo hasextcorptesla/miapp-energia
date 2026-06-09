@@ -118,7 +118,7 @@ const navLinks = [
   { to: '/energia', label: 'Energía' },
   { to: '/medidor', label: 'Medidor' },
   { to: '/luces', label: 'Luces' },
-  { to: '/clima', label: 'Clima' },
+  { to: '/clima', label: 'Climatización' },
   { to: '/reportes', label: 'Reportes' },
 ]
 
