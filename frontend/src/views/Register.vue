@@ -9,7 +9,7 @@
       <div class="glass-card p-8 space-y-6">
         <!-- Logo -->
         <div class="text-center">
-          <img src="/logo.png" alt="Logo" class="h-36 w-auto mx-auto mb-4" />
+          <img src="/logo.png" alt="Logo" class="h-44 sm:h-56 lg:h-64 w-auto mx-auto mb-4" />
           <p class="text-slate-400 text-sm">Crear Cuenta</p>
         </div>
 

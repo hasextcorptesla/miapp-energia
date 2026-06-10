@@ -3,10 +3,10 @@
     <!-- Navbar -->
     <nav v-if="isAuthenticated" class="fixed top-0 left-0 right-0 z-50 glass-card border-t-0 border-x-0 rounded-none">
       <div class="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8">
-        <div class="flex items-center justify-between h-14 sm:h-20">
+        <div class="flex items-center justify-between h-28 sm:h-36 lg:h-40">
           <!-- Logo -->
-          <div class="flex-shrink-0">
-            <img src="/logo.png" alt="Logo" class="h-12 sm:h-16 lg:h-24 w-auto" />
+          <div class="flex-shrink-0 flex items-center">
+            <img src="/logo.png" alt="Logo" class="h-24 sm:h-32 lg:h-36 w-auto" />
           </div>
 
           <!-- Mobile Menu Button -->
@@ -92,7 +92,7 @@
     </nav>
 
     <!-- Main Content -->
-    <main class="pt-16 sm:pt-20 pb-8 px-2 sm:px-4 lg:px-8">
+    <main class="pt-40 sm:pt-48 lg:pt-52 pb-8 px-2 sm:px-4 lg:px-8">
       <div class="max-w-7xl mx-auto">
         <router-view v-slot="{ Component }">
           <transition name="fade" mode="out-in">
