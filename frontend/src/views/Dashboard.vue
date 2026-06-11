@@ -143,7 +143,7 @@
           <div>
             <div class="text-slate-400 text-sm">Autoconsumo</div>
             <div class="text-xl font-bold" :class="selfConsumption >= 50 ? 'text-emerald-400' : 'text-orange-400'">
-              {{ selfConsumption }}%
+              {{ selfConsumption.toFixed(2) }}%
             </div>
           </div>
         </div>
@@ -472,7 +472,7 @@ function updateFlows() {
     if (res.data.success) {
       solarPower.value = res.data.solarGenerado || 0
       consumoPower.value = res.data.consumoActual || 0
-      batterySoc.value = res.data.batterySoc || 0
+      batterySoc.value = Math.round((res.data.batterySoc || 0) / 10)
       solarDia.value = res.data.solarDia || 0
       consumoDia.value = res.data.consumoDia || 0
       gridPower.value = res.data.gridConsumption || 0
