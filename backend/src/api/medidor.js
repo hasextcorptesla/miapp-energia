@@ -34,37 +34,34 @@ router.get('/data', (req, res) => {
       desdeFecha = `${anioActual}-${String(mesActual).padStart(2, '0')}-${String(diaCierre).padStart(2, '0')}`;
     }
 
-    // Obtener consumo y generación acumulados desde el último cierre
-    const consumoDesdeCierre = db.prepare(`
-      SELECT SUM(consumo_dia) as total FROM daily_logs
+    const importDesdeCierre = db.prepare(`
+      SELECT SUM(import_dia) as total FROM daily_logs
       WHERE date >= ? AND date <= ?
     `).get(desdeFecha, ahora.toISOString().split('T')[0]);
 
-    const generacionDesdeCierre = db.prepare(`
-      SELECT SUM(solar_dia) as total FROM daily_logs
+    const exportDesdeCierre = db.prepare(`
+      SELECT SUM(export_dia) as total FROM daily_logs
       WHERE date >= ? AND date <= ?
     `).get(desdeFecha, ahora.toISOString().split('T')[0]);
 
-    const consumoAcumuladoHoy = consumoDesdeCierre?.total || 0;
-    const generacionAcumuladoHoy = generacionDesdeCierre?.total || 0;
+    const importAcumuladoHoy = importDesdeCierre?.total || 0;
+    const exportAcumuladoHoy = exportDesdeCierre?.total || 0;
 
-    // Totales en tiempo real = base + acumulado desde último cierre
-    const consumoTotalActual = medidor.consumo_acumulado + consumoAcumuladoHoy;
-    const generacionTotalActual = medidor.generacion_acumulado + generacionAcumuladoHoy;
+    const importTotalActual = medidor.consumo_acumulado + importAcumuladoHoy;
+    const exportTotalActual = medidor.generacion_acumulado + exportAcumuladoHoy;
 
-    // El consumo/generación del mes actual (desde día de cierre) es exactamente lo acumulado hoy
-    const consumoMesActual = consumoAcumuladoHoy;
-    const generacionMesActual = generacionAcumuladoHoy;
+    const importMesActual = importAcumuladoHoy;
+    const exportMesActual = exportAcumuladoHoy;
 
-    const balance = consumoMesActual - generacionMesActual;
+    const balance = importMesActual - exportMesActual;
 
     res.json({
       success: true,
       data: {
-        consumo_total: consumoTotalActual,
-        generacion_total: generacionTotalActual,
-        consumo_mes: consumoMesActual,
-        generacion_mes: generacionMesActual,
+        consumo_total: importTotalActual,
+        generacion_total: exportTotalActual,
+        consumo_mes: importMesActual,
+        generacion_mes: exportMesActual,
         dia_cierre: medidor.dia_cierre,
         anio_actual: anioActual,
         mes_actual: mesActual,
@@ -154,36 +151,32 @@ router.get('/detalle', (req, res) => {
     }
 
     const registros = db.prepare(`
-      SELECT date, solar_dia, consumo_dia, export_dia, import_dia
+      SELECT date, import_dia, export_dia
       FROM daily_logs
       WHERE date >= ? AND date <= ?
       ORDER BY date ASC
     `).all(fechaInicio, fechaFin);
 
     const data = [];
-    let totalConsumo = 0;
-    let totalGeneracion = 0;
-    let totalExport = 0;
     let totalImport = 0;
+    let totalExport = 0;
 
     for (const r of registros) {
-      const consumo = r.consumo_dia || 0;
-      const generacion = r.solar_dia || 0;
-      const balance = consumo - generacion;
+      const imp = r.import_dia || 0;
+      const exp = r.export_dia || 0;
+      const balance = imp - exp;
 
-      totalConsumo += consumo;
-      totalGeneracion += generacion;
-      totalExport += r.export_dia || 0;
-      totalImport += r.import_dia || 0;
+      totalImport += imp;
+      totalExport += exp;
 
       data.push({
         fecha: r.date,
         dia: parseInt(r.date.split('-')[2]),
-        consumo,
-        generacion,
+        consumo: imp,
+        generacion: exp,
         balance,
-        export: r.export_dia || 0,
-        import: r.import_dia || 0
+        export: exp,
+        import: imp
       });
     }
 
@@ -196,9 +189,9 @@ router.get('/detalle', (req, res) => {
         diaCierre,
         fechaInicio: labelInicio,
         fechaFin: labelFin,
-        totalConsumo,
-        totalGeneracion,
-        balanceTotal: totalConsumo - totalGeneracion,
+        totalConsumo: totalImport,
+        totalGeneracion: totalExport,
+        balanceTotal: totalImport - totalExport,
         totalExport,
         totalImport,
         saldoFavor: medidor.excedente_favor,
@@ -223,13 +216,13 @@ router.get('/grafico', (req, res) => {
     for (let dia = 1; dia <= diasEnMes; dia++) {
       const fecha = `${anioActual}-${mesStr}-${String(dia).padStart(2, '0')}`;
       const registro = db.prepare(`
-        SELECT solar_dia, consumo_dia FROM daily_logs WHERE date = ?
+        SELECT import_dia, export_dia FROM daily_logs WHERE date = ?
       `).get(fecha);
 
       data.push({
         dia,
-        consumo: registro?.consumo_dia || 0,
-        generacion: registro?.solar_dia || 0
+        consumo: registro?.import_dia || 0,
+        generacion: registro?.export_dia || 0
       });
     }
 
@@ -250,12 +243,12 @@ router.get('/historial', (req, res) => {
       const fechaFin = `${anio}-${mesStr}-28`;
 
       const consumo = db.prepare(`
-        SELECT SUM(consumo_dia) as total FROM daily_logs
+        SELECT SUM(import_dia) as total FROM daily_logs
         WHERE date >= ? AND date <= ?
       `).get(fechaInicio, fechaFin);
 
       const generacion = db.prepare(`
-        SELECT SUM(solar_dia) as total FROM daily_logs
+        SELECT SUM(export_dia) as total FROM daily_logs
         WHERE date >= ? AND date <= ?
       `).get(fechaInicio, fechaFin);
 
@@ -293,11 +286,11 @@ router.post('/cerrar-mes', (req, res) => {
     }
 
     const consumoMes = db.prepare(`
-      SELECT SUM(consumo_dia) as total FROM daily_logs WHERE date >= ? AND date <= ?
+      SELECT SUM(import_dia) as total FROM daily_logs WHERE date >= ? AND date <= ?
     `).get(desdeFecha, ahora.toISOString().split('T')[0]);
 
     const generacionMes = db.prepare(`
-      SELECT SUM(solar_dia) as total FROM daily_logs WHERE date >= ? AND date <= ?
+      SELECT SUM(export_dia) as total FROM daily_logs WHERE date >= ? AND date <= ?
     `).get(desdeFecha, ahora.toISOString().split('T')[0]);
 
     const consumoDelMes = consumoMes?.total || 0;

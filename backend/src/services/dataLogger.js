@@ -104,11 +104,11 @@ export function startDataLogging() {
       const hastaFecha = `${anio}-${String(mes).padStart(2, '0')}-${String(diaCierre - 1).padStart(2, '0')}`;
 
       const consumoMes = db.prepare(`
-        SELECT SUM(consumo_dia) as total FROM daily_logs WHERE date >= ? AND date <= ?
+        SELECT SUM(import_dia) as total FROM daily_logs WHERE date >= ? AND date <= ?
       `).get(desdeFecha, hastaFecha);
 
       const generacionMes = db.prepare(`
-        SELECT SUM(solar_dia) as total FROM daily_logs WHERE date >= ? AND date <= ?
+        SELECT SUM(export_dia) as total FROM daily_logs WHERE date >= ? AND date <= ?
       `).get(desdeFecha, hastaFecha);
 
       const consumoDelMes = consumoMes?.total || 0;

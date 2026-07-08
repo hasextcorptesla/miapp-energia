@@ -11,13 +11,13 @@
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
       <div class="glass-card p-4 sm:p-5 border-l-4 border-l-red-500">
-        <div class="text-slate-400 text-sm mb-1">Consumo Total</div>
+        <div class="text-slate-400 text-sm mb-1">Importado Total</div>
         <div class="text-2xl sm:text-3xl font-bold text-red-400">{{ medidor.consumo_total?.toFixed(0) || 0 }} <span class="text-lg text-slate-400">kWh</span></div>
         <button @click="openAjustar('consumo')" class="text-xs text-slate-500 mt-2 hover:text-white">✏️ Ajustar</button>
       </div>
 
       <div class="glass-card p-4 sm:p-5 border-l-4 border-l-emerald-500">
-        <div class="text-slate-400 text-sm mb-1">Generación Total</div>
+        <div class="text-slate-400 text-sm mb-1">Exportado Total</div>
         <div class="text-2xl sm:text-3xl font-bold text-emerald-400">{{ medidor.generacion_total?.toFixed(0) || 0 }} <span class="text-lg text-slate-400">kWh</span></div>
         <button @click="openAjustar('generacion')" class="text-xs text-slate-500 mt-2 hover:text-white">✏️ Ajustar</button>
       </div>
@@ -31,11 +31,11 @@
 
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
         <div class="bg-red-500/10 rounded-lg p-3 border border-red-500/20">
-          <div class="text-red-400 text-xs">Consumido este mes</div>
+          <div class="text-red-400 text-xs">Importado este mes</div>
           <div class="text-xl font-bold text-red-400">{{ medidor.consumo_mes?.toFixed(1) || 0 }} kWh</div>
         </div>
         <div class="bg-emerald-500/10 rounded-lg p-3 border border-emerald-500/20">
-          <div class="text-emerald-400 text-xs">Generado este mes</div>
+          <div class="text-emerald-400 text-xs">Exportado este mes</div>
           <div class="text-xl font-bold text-emerald-400">{{ medidor.generacion_mes?.toFixed(1) || 0 }} kWh</div>
         </div>
       </div>
@@ -53,8 +53,8 @@
           </div>
         </div>
         <div class="flex justify-center gap-4 mt-2 text-xs">
-          <span class="text-red-400">● Consumo</span>
-          <span class="text-emerald-400">● Generación</span>
+          <span class="text-red-400">● Importado</span>
+          <span class="text-emerald-400">● Exportado</span>
         </div>
       </div>
     </div>
@@ -150,20 +150,16 @@
 
         <div class="grid grid-cols-2 gap-2 mb-4">
           <div class="bg-red-500/10 rounded-lg p-2 border border-red-500/20 text-center">
-            <div class="text-[10px] text-slate-400">Total Consumo</div>
+            <div class="text-[10px] text-slate-400">Total Importado</div>
             <div class="text-sm font-bold text-red-400">{{ detalleResumen.totalConsumo?.toFixed(1) || 0 }} kWh</div>
           </div>
           <div class="bg-emerald-500/10 rounded-lg p-2 border border-emerald-500/20 text-center">
-            <div class="text-[10px] text-slate-400">Total Generación</div>
+            <div class="text-[10px] text-slate-400">Total Exportado</div>
             <div class="text-sm font-bold text-emerald-400">{{ detalleResumen.totalGeneracion?.toFixed(1) || 0 }} kWh</div>
           </div>
-          <div class="bg-blue-500/10 rounded-lg p-2 border border-blue-500/20 text-center">
-            <div class="text-[10px] text-slate-400">Exportado</div>
-            <div class="text-sm font-bold text-blue-400">{{ detalleResumen.totalExport?.toFixed(1) || 0 }} kWh</div>
-          </div>
           <div class="bg-amber-500/10 rounded-lg p-2 border border-amber-500/20 text-center">
-            <div class="text-[10px] text-slate-400">Importado</div>
-            <div class="text-sm font-bold text-amber-400">{{ detalleResumen.totalImport?.toFixed(1) || 0 }} kWh</div>
+            <div class="text-[10px] text-slate-400">Factura a Pagar</div>
+            <div class="text-sm font-bold text-amber-400">{{ (detalleResumen.totalConsumo - detalleResumen.totalGeneracion)?.toFixed(1) || 0 }} kWh</div>
           </div>
         </div>
 
@@ -172,11 +168,9 @@
             <thead>
               <tr class="text-slate-400 border-b border-white/10">
                 <th class="text-left py-2">Día</th>
-                <th class="text-right py-2">Consumo</th>
-                <th class="text-right py-2">Generación</th>
-                <th class="text-right py-2">Balance</th>
-                <th class="text-right py-2">Export</th>
-                <th class="text-right py-2">Import</th>
+                <th class="text-right py-2">Importado</th>
+                <th class="text-right py-2">Exportado</th>
+                <th class="text-right py-2">Factura</th>
               </tr>
             </thead>
             <tbody>
@@ -187,8 +181,6 @@
                 <td class="text-right font-medium" :class="d.balance > 0 ? 'text-red-400' : d.balance < 0 ? 'text-emerald-400' : 'text-slate-500'">
                   {{ d.balance > 0 ? '+' : '' }}{{ d.balance.toFixed(1) }}
                 </td>
-                <td class="text-right text-slate-400">{{ d.export > 0 ? d.export.toFixed(1) : '-' }}</td>
-                <td class="text-right text-slate-400">{{ d.import > 0 ? d.import.toFixed(1) : '-' }}</td>
               </tr>
             </tbody>
             <tfoot>
@@ -199,8 +191,6 @@
                 <td class="text-right" :class="detalleResumen.balanceTotal > 0 ? 'text-red-400' : 'text-emerald-400'">
                   {{ detalleResumen.balanceTotal > 0 ? '+' : '' }}{{ detalleResumen.balanceTotal?.toFixed(1) || 0 }}
                 </td>
-                <td class="text-right text-slate-400"></td>
-                <td class="text-right text-slate-400"></td>
               </tr>
             </tfoot>
           </table>
@@ -226,9 +216,9 @@
             <thead>
               <tr class="text-slate-400 border-b border-white/10">
                 <th class="text-left py-2">Mes</th>
-                <th class="text-right py-2">Consumo</th>
-                <th class="text-right py-2">Generado</th>
-                <th class="text-right py-2">Balance</th>
+                <th class="text-right py-2">Importado</th>
+                <th class="text-right py-2">Exportado</th>
+                <th class="text-right py-2">Factura</th>
               </tr>
             </thead>
             <tbody>
