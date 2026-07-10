@@ -1,3 +1,6 @@
 {
-  "name": "corptesla-energy"
+  "name": "corptesla-energy",
+  "buildCommand": "cd frontend && npm install && npm run vercel-build",
+  "outputDirectory": "frontend/dist",
+  "framework": "vite"
 }

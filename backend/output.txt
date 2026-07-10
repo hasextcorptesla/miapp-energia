@@ -1,0 +1,41 @@
+Conectando a MQTT: 192.168.90.126:1883
+HA Config - URL: http://192.168.90.243:8123 Token configured: true
+Iniciando polling HA cada 10000ms...
+HA URL: http://192.168.90.243:8123
+HA Config - URL: http://192.168.90.243:8123 Token configured: true
+Fetching from HA: http://192.168.90.243:8123
+Iniciando guardado automático de datos...
+✓ Sistema de guardado iniciado (cada 5 min)
+====================================
+Servidor Miapp corriendo en http://localhost:3000
+====================================
+Endpoints:
+  GET  /api/energy/current
+  GET  /api/energy/solar
+  GET  /api/energy/daily
+  GET  /api/nodered/data
+  POST /api/nodered/data
+  GET  /api/nodered/status
+====================================
+Light Salón (switch.sonoff_10006944a0): state=off
+Light Recepción (switch.sonoff_1000689d99): state=on
+Light Comedor (switch.sonoff_1000d10979): state=off
+Light Fotocopiado (switch.sonoff_10014560db): state=off
+Light Diseño (switch.luces_interruptor_1): state=off
+Light Ventas (switch.luces_interruptor_2): state=off
+Light Pasillo (switch.luces_interruptor_3): state=off
+Checking temp switches for salon 26: undefined
+Checking temp switches for recepcion 26: undefined
+Temp check: switch.temp24_salon3 = undefined
+Temp check: switch.temp25_salon3 = undefined
+Temp check: switch.temp26_salon3 = off
+Temp check: switch.temp_24_recepcion = off
+Temp check: switch.temp_25_recepcion = off
+Temp check: switch.temp_26_recepcion = undefined
+Temp check: switch.temp24_aire2 = off
+Temp check: switch.temp25_aire2 = off
+Temp check: switch.temp26_aire2 = off
+Temp check: switch.temp_24_aire4 = off
+Temp check: switch.temp_25_aire4 = off
+Temp check: switch.temp_26_aire4 = off
+✓ HA: Solar=4766W, Consumo=371W, Bateria=0%
