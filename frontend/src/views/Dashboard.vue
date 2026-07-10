@@ -164,7 +164,7 @@
 
 <script setup>
 import { ref, computed, onMounted, onUnmounted } from 'vue'
-import axios from 'axios'
+import api from '@/api/axios'
 import * as d3 from 'd3'
 import { Chart, registerables } from 'chart.js'
 
@@ -468,7 +468,7 @@ function updateFlows() {
 
   async function fetchData() {
   try {
-    const res = await axios.get('/api/nodered/energy/current')
+    const res = await api.get('/nodered/energy/current')
     if (res.data.success) {
       solarPower.value = res.data.solarGenerado || 0
       consumoPower.value = res.data.consumoActual || 0
@@ -543,7 +543,7 @@ function updateNodeEffects() {
 async function fetchHourlyData() {
   try {
     const today = new Date().toISOString().split('T')[0]
-    const res = await axios.get('/api/reports/hourly?date=' + today)
+    const res = await api.get('/reports/hourly?date=' + today)
     if (res.data.success && res.data.data) {
       hourlyData.value = res.data.data
       updateLineChart()
