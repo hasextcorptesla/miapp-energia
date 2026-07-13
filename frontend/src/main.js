@@ -5,7 +5,7 @@ import axios from 'axios'
 import './style.css'
 
 const isDev = import.meta.env.DEV
-const apiUrl = isDev ? '' : (import.meta.env.VITE_API_URL || 'https://tips-coaching-embedded-oops.trycloudflare.com')
+const apiUrl = isDev ? '' : (import.meta.env.VITE_API_URL || 'https://assignments-ambien-assist-represents.trycloudflare.com')
 
 if (!isDev) {
   axios.defaults.baseURL = apiUrl
