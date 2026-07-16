@@ -9,6 +9,7 @@ const apiUrl = isDev ? '' : (import.meta.env.VITE_API_URL || 'https://undoing-sp
 
 if (!isDev) {
   axios.defaults.baseURL = apiUrl
+  axios.defaults.headers.common['ngrok-skip-browser-warning'] = 'true'
   console.log('Production API URL:', apiUrl)
 } else {
   console.log('Development mode - using proxy to localhost:3000')
