@@ -5,12 +5,11 @@ import axios from 'axios'
 import './style.css'
 
 const isDev = import.meta.env.DEV
-const apiUrl = isDev ? '' : (import.meta.env.VITE_API_URL || 'https://undoing-sprite-jeep.ngrok-free.dev')
+const apiUrl = isDev ? '' : ''
 
 if (!isDev) {
-  axios.defaults.baseURL = apiUrl
-  axios.defaults.headers.common['ngrok-skip-browser-warning'] = 'true'
-  console.log('Production API URL:', apiUrl)
+  axios.defaults.baseURL = '/api/proxy'
+  console.log('Production API URL: /api/proxy')
 } else {
   console.log('Development mode - using proxy to localhost:3000')
 }
