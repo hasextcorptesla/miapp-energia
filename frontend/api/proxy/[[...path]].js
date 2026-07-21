@@ -8,7 +8,8 @@ export default async function handler(req, res) {
   
   const headers = {
     'Content-Type': 'application/json',
-    'ngrok-skip-browser-warning': 'true'
+    'ngrok-skip-browser-warning': 'true',
+    'User-Agent': 'Mozilla/5.0'
   };
 
   try {
