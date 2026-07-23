@@ -240,7 +240,7 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import axios from 'axios'
+import api from '@/api/axios'
 
 const tabs = [
   { id: 'devices', name: 'Dispositivos' },
@@ -277,11 +277,11 @@ const fetchData = async () => {
   
   try {
     const [devicesRes, metersRes, alertsRes, statsRes, usersRes] = await Promise.all([
-      axios.get('/api/devices'),
-      axios.get('/api/admin/meters', { headers }),
-      axios.get('/api/admin/alerts', { headers }),
-      axios.get('/api/admin/stats', { headers }),
-      axios.get('/api/admin/users', { headers })
+      api.get('/devices'),
+      api.get('/admin/meters', { headers }),
+      api.get('/admin/alerts', { headers }),
+      api.get('/admin/stats', { headers }),
+      api.get('/admin/users', { headers })
     ])
     
     devices.value = devicesRes.data.devices || []
@@ -310,7 +310,7 @@ const editDevice = (device) => {
 
 const deleteDevice = async (id) => {
   if (confirm('¿Eliminar dispositivo?')) {
-    await axios.delete(`/api/devices/${id}`)
+    await api.delete(`/devices/${id}`)
     fetchData()
   }
 }
@@ -321,7 +321,7 @@ const editMeter = (meter) => {
 
 const syncMeter = async (meter) => {
   const token = localStorage.getItem('token')
-  await axios.put(`/api/admin/meters/${meter.id}`, {
+  await api.put(`/admin/meters/${meter.id}`, {
     provider_value: meter.provider_value,
     local_value: meter.local_value
   }, { headers: { Authorization: `Bearer ${token}` } })
@@ -329,7 +329,7 @@ const syncMeter = async (meter) => {
 
 const acknowledgeAlert = async (id) => {
   const token = localStorage.getItem('token')
-  await axios.put(`/api/admin/alerts/${id}/acknowledge`, {}, {
+  await api.put(`/admin/alerts/${id}/acknowledge`, {}, {
     headers: { Authorization: `Bearer ${token}` }
   })
   fetchData()
@@ -338,7 +338,7 @@ const acknowledgeAlert = async (id) => {
 const deleteUser = async (id) => {
   if (confirm('¿Eliminar este usuario?')) {
     const token = localStorage.getItem('token')
-    await axios.delete(`/api/admin/users/${id}`, {
+    await api.delete(`/admin/users/${id}`, {
       headers: { Authorization: `Bearer ${token}` }
     })
     fetchData()
@@ -350,7 +350,7 @@ const newUser = ref({ username: '', email: '', password: '' })
 const createUser = async () => {
   const token = localStorage.getItem('token')
   try {
-    await axios.post('/api/admin/users', newUser.value, {
+    await api.post('/admin/users', newUser.value, {
       headers: { Authorization: `Bearer ${token}` }
     })
     showAddUser.value = false
@@ -374,7 +374,7 @@ const changePassword = async () => {
   }
   const token = localStorage.getItem('token')
   try {
-    await axios.put(`/api/admin/users/${selectedUser.value.id}/password`, 
+    await api.put(`/admin/users/${selectedUser.value.id}/password`, 
       { password: newPassword.value },
       { headers: { Authorization: `Bearer ${token}` } }
     )
@@ -396,7 +396,7 @@ const createDevice = async () => {
     return
   }
   try {
-    await axios.post('/api/devices', newDevice.value)
+    await api.post('/devices', newDevice.value)
     showAddDevice.value = false
     fetchData()
     alert('Dispositivo creado correctamente')

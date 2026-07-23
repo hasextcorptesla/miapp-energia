@@ -139,7 +139,7 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import axios from 'axios'
+import api from '@/api/axios'
 
 const router = useRouter()
 
@@ -237,7 +237,7 @@ const changePassword = async () => {
   loading.value = true
   
   try {
-    await axios.put('/api/auth/password', {
+    await api.put('/auth/password', {
       username: user.value.username,
       currentPassword: currentPassword.value,
       newPassword: newPassword.value

@@ -58,7 +58,7 @@
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
-import axios from 'axios'
+import api from '@/api/axios'
 
 const lights = ref([])
 const loading = ref(true)
@@ -76,7 +76,7 @@ function getIcon(name) {
 
 async function fetchLights() {
   try {
-    const res = await axios.get('/api/nodered/lights')
+    const res = await api.get('/nodered/lights')
     if (res.data.success && res.data.lights) {
       lights.value = Object.values(res.data.lights)
     } else {
@@ -100,7 +100,7 @@ async function toggleLight(id, state) {
   try {
     const action = state === 'on' ? 'off' : 'on'
     console.log('Toggle light:', id, action)
-    const res = await axios.post('/api/nodered/light/control', { entity_id: id, action })
+    const res = await api.post('/nodered/light/control', { entity_id: id, action })
     console.log('Response:', res.data)
     if (!res.data.success) {
       // Revertir si hay error
@@ -123,7 +123,7 @@ async function turnAllOn() {
   try {
     for (const light of lights.value) {
       if (light.state !== 'on') {
-        await axios.post('/api/nodered/light/control', { entity_id: light.id, action: 'on' })
+        await api.post('/nodered/light/control', { entity_id: light.id, action: 'on' })
       }
     }
     await fetchLights()
@@ -137,7 +137,7 @@ async function turnAllOff() {
   try {
     for (const light of lights.value) {
       if (light.state === 'on') {
-        await axios.post('/api/nodered/light/control', { entity_id: light.id, action: 'off' })
+        await api.post('/nodered/light/control', { entity_id: light.id, action: 'off' })
       }
     }
     await fetchLights()

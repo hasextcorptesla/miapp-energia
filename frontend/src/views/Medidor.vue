@@ -239,7 +239,7 @@
 
 <script setup>
 import { ref, onMounted, computed } from 'vue'
-import axios from 'axios'
+import api from '@/api/axios'
 
 const medidor = ref({
   consumo_total: 0,
@@ -286,7 +286,7 @@ async function fetchMedidor() {
     return
   }
   try {
-    const res = await axios.get('/api/medidor/data')
+    const res = await api.get('/medidor/data')
     if (res.data.success) {
       medidor.value = res.data.data
       mesNombre.value = res.data.data.mes_nombre
@@ -300,7 +300,7 @@ async function fetchMedidor() {
 
 async function fetchGrafico() {
   try {
-    const res = await axios.get('/api/medidor/grafico')
+    const res = await api.get('/medidor/grafico')
     if (res.data.success) {
       graficoData.value = res.data.data.filter(d => d.consumo > 0 || d.generacion > 0).slice(-15)
     }
@@ -311,7 +311,7 @@ async function fetchGrafico() {
 
 async function fetchHistorial() {
   try {
-    const res = await axios.get('/api/medidor/historial?anio=' + anio.value)
+    const res = await api.get('/medidor/historial?anio=' + anio.value)
     if (res.data.success) {
       historialData.value = res.data.data.filter(m => m.consumo > 0 || m.generacion > 0)
     }
@@ -329,7 +329,7 @@ function openDetalle() {
 
 async function fetchDetalle() {
   try {
-    const res = await axios.get(`/api/medidor/detalle?anio=${detalleAnio.value}&mes=${detalleMes.value}`)
+    const res = await api.get(`/medidor/detalle?anio=${detalleAnio.value}&mes=${detalleMes.value}`)
     if (res.data.success) {
       detalleData.value = res.data.data
       detalleResumen.value = res.data.resumen
@@ -390,7 +390,7 @@ async function guardarAjuste() {
     ajusteError.value = ''
     
     console.log('Guardando ajuste:', { consumo: consumoNum, generacion: generacionNum })
-    const res = await axios.post('/api/medidor/ajustar', {
+    const res = await api.post('/medidor/ajustar', {
       consumo: consumoNum,
       generacion: generacionNum
     })
@@ -410,7 +410,7 @@ async function guardarAjuste() {
 async function guardarConfig() {
   try {
     console.log('Guardando config:', { dia_cierre: config.value.dia_cierre })
-    const res = await axios.post('/api/medidor/configurar', {
+    const res = await api.post('/medidor/configurar', {
       dia_cierre: config.value.dia_cierre
     })
     console.log('Respuesta config:', res.data)
@@ -429,7 +429,7 @@ async function guardarConfig() {
 async function cerrarMes() {
   if (confirm('¿Confirmar cierre del mes? Esto actualizará los excedentes anuales.')) {
     try {
-      const res = await axios.post('/api/medidor/cerrar-mes')
+      const res = await api.post('/medidor/cerrar-mes')
       alert(res.data.message)
       fetchMedidor()
     } catch (err) {

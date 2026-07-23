@@ -86,7 +86,7 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import axios from 'axios'
+import api from '@/api/axios'
 
 const airConditioners = ref([])
 const selectedTemps = ref({})
@@ -98,7 +98,7 @@ function getDisplayTemp(ac) {
 
 async function fetchACs() {
   try {
-    const res = await axios.get('/api/nodered/air-conditioners')
+    const res = await api.get('/nodered/air-conditioners')
     console.log('AC Response:', res.data)
     if (res.data.success && res.data.airConditioners) {
       const acData = res.data.airConditioners
@@ -130,7 +130,7 @@ async function toggleAC(ac) {
   ac.tempAction = action
   try {
     console.log('Toggle AC:', ac.id, action)
-    const res = await axios.post('/api/nodered/ac/control', { id: ac.id, action })
+    const res = await api.post('/nodered/ac/control', { id: ac.id, action })
     console.log('Toggle result:', res.data)
     if (res.data.success) {
       ac.power = action === 'on' ? 100 : 0
@@ -147,7 +147,7 @@ async function toggleAC(ac) {
 async function setTemp(ac, temp) {
   try {
     console.log('Set temp:', ac.id, temp)
-    const res = await axios.post('/api/nodered/ac/temperature', { id: ac.id, temperature: temp })
+    const res = await api.post('/nodered/ac/temperature', { id: ac.id, temperature: temp })
     console.log('Set temp result:', res.data)
     selectedTemps.value[ac.id] = temp
     ac.temperature = temp

@@ -129,7 +129,7 @@
 
 <script setup>
 import { ref, computed, watch, onMounted } from 'vue'
-import axios from 'axios'
+import api from '@/api/axios'
 import { Chart, registerables } from 'chart.js'
 
 Chart.register(...registerables)
@@ -211,7 +211,7 @@ const generateReport = async () => {
   }
 
   try {
-    const response = await axios.get('/api/reports/daily?start=' + startDate + '&end=' + endDate)
+    const response = await api.get('/reports/daily?start=' + startDate + '&end=' + endDate)
     const data = response.data.data || []
 
     let totalGen = 0
@@ -345,7 +345,7 @@ const exportExcel = async () => {
       endDate = today.toISOString().split('T')[0]
     }
     
-    const response = await axios.get('/api/reports/report', {
+    const response = await api.get('/reports/report', {
       params: { start: startDate, end: endDate, format: 'xlsx' },
       responseType: 'blob'
     })

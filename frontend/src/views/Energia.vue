@@ -110,7 +110,7 @@
 
 <script setup>
 import { ref, computed, onMounted, onUnmounted } from 'vue'
-import axios from 'axios'
+import api from '@/api/axios'
 
 const mqttConnected = ref(true)
 const lastUpdate = ref('')
@@ -130,7 +130,7 @@ const totalAires = computed(() => {
 
 const fetchData = async () => {
   try {
-    const res = await axios.get('/api/nodered/energy/current')
+    const res = await api.get('/nodered/energy/current')
     if (res.data.success) {
       solarPower.value = res.data.solarGenerado || 0
       potencia.value = res.data.consumoActual || 0
@@ -148,7 +148,7 @@ const fetchData = async () => {
           { id: 'laboratorio', name: 'Aire Laboratorio', room: 'Laboratorio', state: res.data.aireLaboratorio > 0 ? 'on' : 'off', power: res.data.aireLaboratorio || 0 }
         ]
       } else {
-        const acRes = await axios.get('/api/nodered/air-conditioners')
+        const acRes = await api.get('/nodered/air-conditioners')
         if (acRes.data.success && acRes.data.airConditioners) {
           const acData = acRes.data.airConditioners
           if (Array.isArray(acData)) {
