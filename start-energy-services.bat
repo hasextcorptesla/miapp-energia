@@ -9,13 +9,12 @@ start /MIN "CorpTesla-Backend" cmd /k "cd /d C:\Users\iacor\Documents\proyecto\h
 
 timeout /t 5 /nobreak >nul
 
-echo [*] Iniciando Ngrok tunnel...
-start "CorpTesla-Ngrok" cmd /k "C:\Users\iacor\Downloads\ngrok-v3-stable-windows-amd64\ngrok.exe http 3000"
+echo [*] Iniciando Cloudflare tunnel...
+start "CorpTesla-Tunnel" cmd /k "C:\Users\iacor\AppData\Roaming\npm\node_modules\cloudflared\bin\cloudflared.exe tunnel --url http://localhost:3000"
 
 echo.
 echo [*] Servicios iniciados!
 echo [*] App: https://corptesla-energy.vercel.app
-echo [*] Revisa la ventana de Ngrok para la URL del tunel
-echo [*] Panel ngrok: http://localhost:4040
+echo [*] Revisa la ventana de Cloudflare para la URL del tunel (trycloudflare.com)
 echo.
 pause

@@ -3,6 +3,6 @@
   "outputDirectory": "dist",
   "framework": "vite",
   "rewrites": [
-    { "source": "/api/proxy/:path*", "destination": "https://undoing-sprite-jeep.ngrok-free.dev/api/:path*" }
+    { "source": "/api/proxy/:path*", "destination": "https://synopsis-quiet-ferrari-singing.trycloudflare.com/api/:path*" }
   ]
 }

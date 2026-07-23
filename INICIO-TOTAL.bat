@@ -10,8 +10,7 @@ echo.
 echo  Servicios:
 echo    [1] Backend Node.js (puerto 3000)
 echo    [2] Frontend Vite (puerto 5173)
-echo    [3] Ngrok Tunnel (puerto 3000 -> publico)
-echo    [4] Cloudflared Tunnel (backup)
+echo    [3] Cloudflared Tunnel (puerto 3000 -> publico)
 echo.
 echo ============================================================
 echo.
@@ -94,12 +93,12 @@ echo    [OK] Frontend iniciado en puerto 5173
 echo.
 
 :: ============================================================
-:: PASO 6: Iniciar Tunnel Ngrok
+:: PASO 6: Iniciar Tunnel Cloudflare
 :: ============================================================
-echo [6/6] Iniciando Tunnel...
-start "CorpTesla-Ngrok" cmd /k "C:\Users\iacor\Downloads\ngrok-v3-stable-windows-amd64\ngrok.exe http 3000"
-timeout /t 5 /nobreak >nul
-echo    [OK] Ngrok tunnel iniciado
+echo [6/6] Iniciando Tunnel Cloudflare...
+start "CorpTesla-Tunnel" cmd /k "C:\Users\iacor\AppData\Roaming\npm\node_modules\cloudflared\bin\cloudflared.exe tunnel --url http://localhost:3000"
+timeout /t 8 /nobreak >nul
+echo    [OK] Cloudflared tunnel iniciado
 echo.
 
 :: ============================================================
@@ -112,18 +111,18 @@ echo.
 echo  URLs:
 echo    Local:    http://localhost:5173
 echo    Backend:  http://localhost:3000
-echo    Ngrok:    Ver ventana de Ngrok (http://localhost:4040)
+echo    Tunnel:   Ver ventana de Cloudflare (trycloudflare.com)
 echo    Vercel:   https://corptesla-energy.vercel.app
 echo.
-echo  NOTA: La URL de Ngrok cambia cada vez que se reinicia.
-echo        Actualiza VITE_API_URL si usas Vercel.
+echo  NOTA: La URL de Cloudflare cambia cada vez que se reinicia.
+echo        Actualiza vercel.json y haz push para Vercel.
 echo.
 echo ============================================================
 echo.
 echo  Ventanas abiertas:
 echo    - CorpTesla-Backend (minimizado)
 echo    - CorpTesla-Frontend (minimizado)
-echo    - CorpTesla-Ngrok (ventana con URL publica)
+echo    - CorpTesla-Tunnel (ventana con URL publica)
 echo.
 echo  Para detener todo: cierra las ventanas o ejecuta STOP.bat
 echo.

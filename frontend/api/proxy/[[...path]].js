@@ -1,5 +1,5 @@
 export default async function handler(req, res) {
-  const BACKEND_URL = 'https://undoing-sprite-jeep.ngrok-free.dev';
+  const BACKEND_URL = 'https://synopsis-quiet-ferrari-singing.trycloudflare.com';
   
   const { path } = req.query;
   const pathStr = Array.isArray(path) ? path.join('/') : path;
