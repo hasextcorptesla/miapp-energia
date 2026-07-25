@@ -320,4 +320,64 @@ router.post('/cerrar-mes', (req, res) => {
   }
 });
 
+router.post('/detalle/editar', (req, res) => {
+  try {
+    const { fecha, import_dia, export_dia } = req.body;
+
+    if (!fecha) {
+      return res.status(400).json({ success: false, error: 'Fecha requerida' });
+    }
+
+    const existing = db.prepare('SELECT * FROM daily_logs WHERE date = ?').get(fecha);
+    if (!existing) {
+      return res.status(404).json({ success: false, error: 'Registro no encontrado para esa fecha' });
+    }
+
+    const nuevoImport = import_dia !== undefined ? parseFloat(import_dia) : existing.import_dia;
+    const nuevoExport = export_dia !== undefined ? parseFloat(export_dia) : existing.export_dia;
+
+    db.prepare('UPDATE daily_logs SET import_dia = ?, export_dia = ? WHERE date = ?')
+      .run(nuevoImport, nuevoExport, fecha);
+
+    res.json({
+      success: true,
+      message: `Día ${fecha} actualizado: Importado=${nuevoImport}, Exportado=${nuevoExport}`,
+      data: { fecha, import_dia: nuevoImport, export_dia: nuevoExport }
+    });
+  } catch (error) {
+    console.error('Error editar detalle:', error);
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+router.post('/excedente/ajustar', (req, res) => {
+  try {
+    const { excedente_favor, excedente_contra } = req.body;
+
+    const medidor = getMedidorData();
+
+    if (excedente_favor !== undefined) {
+      db.prepare('UPDATE medidor SET excedente_favor = ? WHERE id = 1')
+        .run(parseFloat(excedente_favor));
+    }
+    if (excedente_contra !== undefined) {
+      db.prepare('UPDATE medidor SET excedente_contra = ? WHERE id = 1')
+        .run(parseFloat(excedente_contra));
+    }
+
+    const updated = getMedidorData();
+    res.json({
+      success: true,
+      message: 'Excedente anual actualizado',
+      data: {
+        excedente_favor: updated.excedente_favor,
+        excedente_contra: updated.excedente_contra
+      }
+    });
+  } catch (error) {
+    console.error('Error ajustar excedente:', error);
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
 export default router;

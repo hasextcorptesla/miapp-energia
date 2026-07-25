@@ -73,7 +73,10 @@
     </div>
 
     <div class="glass-card p-4 sm:p-5">
-      <h2 class="text-lg font-semibold text-white mb-3">Excedente Anual</h2>
+      <div class="flex items-center justify-between mb-3">
+        <h2 class="text-lg font-semibold text-white">Excedente Anual</h2>
+        <button @click="openExcedenteModal" class="text-xs text-slate-500 hover:text-white">✏️ Ajustar</button>
+      </div>
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div class="bg-emerald-500/10 rounded-lg p-3 border border-emerald-500/30">
           <div class="text-emerald-400 text-xs">A Favor</div>
@@ -138,6 +141,7 @@
       <div class="glass-card p-6 w-full max-w-2xl max-h-[85vh] overflow-y-auto">
         <h3 class="text-xl font-bold text-white mb-1">Detalle Diario del Medidor</h3>
         <p class="text-xs text-slate-400 mb-4">Ciclo: {{ detalleResumen.fechaInicio }} → {{ detalleResumen.fechaFin }} (cierre día {{ detalleResumen.diaCierre }})</p>
+        <p class="text-xs text-amber-400 mb-3">💡 Haz clic en cualquier valor de Importado o Exportado para editarlo</p>
 
         <div class="flex flex-wrap gap-2 mb-4">
           <select v-model="detalleMes" @change="fetchDetalle" class="glass-input text-sm">
@@ -176,8 +180,26 @@
             <tbody>
               <tr v-for="d in detalleData" :key="d.fecha" class="border-b border-white/5">
                 <td class="py-1.5 text-slate-300">{{ d.dia }}</td>
-                <td class="text-right text-red-400">{{ d.consumo > 0 ? d.consumo.toFixed(1) : '-' }}</td>
-                <td class="text-right text-emerald-400">{{ d.generacion > 0 ? d.generacion.toFixed(1) : '-' }}</td>
+                <td class="text-right text-red-400 cursor-pointer hover:bg-red-500/10 px-1 rounded"
+                    @click="startEditCell(d.fecha, 'import', d.consumo)">
+                  <template v-if="editingCell === d.fecha && editingField === 'import'">
+                    <input v-model="editingValue" type="number" step="0.1" class="glass-input w-20 text-right text-xs"
+                           @keyup.enter="saveEditCell(d.fecha)" @keyup.escape="cancelEditCell" @blur="saveEditCell(d.fecha)" autofocus>
+                  </template>
+                  <template v-else>
+                    {{ d.consumo > 0 ? d.consumo.toFixed(1) : '-' }}
+                  </template>
+                </td>
+                <td class="text-right text-emerald-400 cursor-pointer hover:bg-emerald-500/10 px-1 rounded"
+                    @click="startEditCell(d.fecha, 'export', d.generacion)">
+                  <template v-if="editingCell === d.fecha && editingField === 'export'">
+                    <input v-model="editingValue" type="number" step="0.1" class="glass-input w-20 text-right text-xs"
+                           @keyup.enter="saveEditCell(d.fecha)" @keyup.escape="cancelEditCell" @blur="saveEditCell(d.fecha)" autofocus>
+                  </template>
+                  <template v-else>
+                    {{ d.generacion > 0 ? d.generacion.toFixed(1) : '-' }}
+                  </template>
+                </td>
                 <td class="text-right font-medium" :class="d.balance > 0 ? 'text-red-400' : d.balance < 0 ? 'text-emerald-400' : 'text-slate-500'">
                   {{ d.balance > 0 ? '+' : '' }}{{ d.balance.toFixed(1) }}
                 </td>
@@ -234,6 +256,27 @@
         <button @click="showHistorial = false" class="btn-secondary w-full mt-4">Cerrar</button>
       </div>
     </div>
+
+    <div v-if="showExcedenteModal" class="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4" @click.self="showExcedenteModal = false">
+      <div class="glass-card p-6 w-full max-w-md">
+        <h3 class="text-xl font-bold text-white mb-4">Ajustar Excedente Anual</h3>
+        <p class="text-xs text-slate-400 mb-4">Modifica los valores para que coincidan con la factura del proveedor.</p>
+        <div class="space-y-4">
+          <div>
+            <label class="text-emerald-400 text-sm">A Favor (kWh)</label>
+            <input v-model.number="excedenteEdit.favor" type="number" step="1" class="glass-input w-full">
+          </div>
+          <div>
+            <label class="text-red-400 text-sm">En Contra (kWh)</label>
+            <input v-model.number="excedenteEdit.contra" type="number" step="1" class="glass-input w-full">
+          </div>
+          <div class="flex gap-2">
+            <button @click="guardarExcedente" class="btn-primary flex-1">Guardar</button>
+            <button @click="showExcedenteModal = false" class="btn-secondary flex-1">Cancelar</button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -262,6 +305,13 @@ const showAjustar = ref(false)
 const showConfig = ref(false)
 const showHistorial = ref(false)
 const showDetalle = ref(false)
+const showExcedenteModal = ref(false)
+
+const editingCell = ref(null)
+const editingValue = ref('')
+const editingField = ref('')
+
+const excedenteEdit = ref({ favor: 0, contra: 0 })
 
 const detalleData = ref([])
 const detalleResumen = ref({})
@@ -419,6 +469,90 @@ async function guardarConfig() {
       fetchMedidor()
     } else {
       alert('Error: ' + (res.data.error || 'No se pudo guardar'))
+    }
+  } catch (err) {
+    console.error('Error:', err)
+    alert('Error al guardar: ' + err.message)
+  }
+}
+
+function startEditCell(fecha, field, value) {
+  editingCell.value = fecha
+  editingField.value = field
+  editingValue.value = value.toFixed(1)
+}
+
+async function saveEditCell(fecha) {
+  const newValue = parseFloat(editingValue.value)
+  if (isNaN(newValue) || newValue < 0) {
+    alert('Ingrese un valor válido')
+    return
+  }
+
+  const row = detalleData.value.find(d => d.fecha === fecha)
+  if (!row) return
+
+  const payload = { fecha }
+  if (editingField.value === 'import') {
+    payload.import_dia = newValue
+    payload.export_dia = row.generacion
+  } else {
+    payload.import_dia = row.consumo
+    payload.export_dia = newValue
+  }
+
+  try {
+    const res = await api.post('/medidor/detalle/editar', payload)
+    if (res.data.success) {
+      row.consumo = payload.import_dia
+      row.generacion = payload.export_dia
+      row.balance = payload.import_dia - payload.export_dia
+      row.import = payload.import_dia
+      row.export = payload.export_dia
+
+      let totalImport = 0, totalExport = 0
+      detalleData.value.forEach(d => {
+        totalImport += d.consumo
+        totalExport += d.generacion
+      })
+      detalleResumen.value.totalConsumo = totalImport
+      detalleResumen.value.totalGeneracion = totalExport
+      detalleResumen.value.balanceTotal = totalImport - totalExport
+    }
+  } catch (err) {
+    console.error('Error:', err)
+    alert('Error al guardar: ' + err.message)
+  }
+
+  editingCell.value = null
+  editingField.value = ''
+  editingValue.value = ''
+}
+
+function cancelEditCell() {
+  editingCell.value = null
+  editingField.value = ''
+  editingValue.value = ''
+}
+
+function openExcedenteModal() {
+  excedenteEdit.value = {
+    favor: medidor.value.excedente_favor || 0,
+    contra: medidor.value.excedente_contra || 0
+  }
+  showExcedenteModal.value = true
+}
+
+async function guardarExcedente() {
+  try {
+    const res = await api.post('/medidor/excedente/ajustar', {
+      excedente_favor: parseFloat(excedenteEdit.value.favor),
+      excedente_contra: parseFloat(excedenteEdit.value.contra)
+    })
+    if (res.data.success) {
+      medidor.value.excedente_favor = res.data.data.excedente_favor
+      medidor.value.excedente_contra = res.data.data.excedente_contra
+      showExcedenteModal.value = false
     }
   } catch (err) {
     console.error('Error:', err)
