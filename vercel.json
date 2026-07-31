@@ -3,6 +3,6 @@
   "outputDirectory": "dist",
   "framework": "vite",
   "rewrites": [
-    { "source": "/api/proxy/:path*", "destination": "https://synopsis-quiet-ferrari-singing.trycloudflare.com/api/:path*" }
+    { "source": "/api/proxy/:path*", "destination": "https://computation-involves-rush-violation.trycloudflare.com/api/:path*" }
   ]
 }

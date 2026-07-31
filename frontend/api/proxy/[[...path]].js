@@ -1,5 +1,5 @@
 export default async function handler(req, res) {
-  const BACKEND_URL = 'https://synopsis-quiet-ferrari-singing.trycloudflare.com';
+  const BACKEND_URL = 'https://computation-involves-rush-violation.trycloudflare.com';
   
   const { path } = req.query;
   const pathStr = Array.isArray(path) ? path.join('/') : path;
